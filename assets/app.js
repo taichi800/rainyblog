@@ -89,6 +89,29 @@
         article.style.letterSpacing = `${e.target.value}px`;
     });
 
+
+// readergrid.runtime.js
+const RG = {
+  setMag(level) {                // 'lg' | 'xl' | null
+    const html = document.documentElement;
+    level ? html.setAttribute('data-mag', level)
+          : html.removeAttribute('data-mag');
+    localStorage.setItem('rg:mag', level || '');
+  },
+  setImgMode(mode) {             // 'normal' | 'compact' | 'hidden'
+    document.documentElement.setAttribute('data-img-mode', mode);
+    localStorage.setItem('rg:img-mode', mode);
+  },
+  init() {
+    const mag = localStorage.getItem('rg:mag') || '';
+    const img = localStorage.getItem('rg:img-mode') || 'normal';
+    if (mag) document.documentElement.setAttribute('data-mag', mag);
+    document.documentElement.setAttribute('data-img-mode', img);
+  }
+};
+document.addEventListener('DOMContentLoaded', RG.init);
+
+
     document.getElementById('word-spacing').addEventListener('input', (e) => {
         article.style.wordSpacing = `${e.target.value}px`;
     });
