@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://taichi800.github.io/rainyblog/sitemap.xml
