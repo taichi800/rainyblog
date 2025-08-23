@@ -2,6 +2,11 @@
       content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
 <meta http-equiv="Permissions-Policy"
       content="accelerometer=(), ambient-light-sensor=(), autoplay=(), bluetooth=(), camera=(), clipboard-read=(), clipboard-write=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), keyboard-map=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), nfc=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), sync-xhr=(), usb=(), window-management=(), xr-spatial-tracking=()">
+<meta property="og:title" content="Article Title">
+<meta property="og:description" content="One sentence summary.">
+<meta property="og:image" content="https://taichi800.github.io/rainyblog/assets/og/slug-1200x630.jpg">
+<meta property="og:url" content="https://taichi800.github.io/rainyblog/article-slug.html">
+<meta name="twitter:card" content="summary_large_image">
 
 
 <link rel="icon" href="/rainyblog/favicon.ico">
@@ -42,3 +47,497 @@
 
   <dialog class="dialog-backdrop" id="zoom"><img alt=""></dialog>
 </body>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Article Title – Rainy Blog</title>
+  <meta name="description" content="A concise summary of this article for search engines and sharing.">
+<!-- In <head> -->
+<link rel="icon" type="image/png" sizes="16x16" href="/rainyblog/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/rainyblog/assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/rainyblog/assets/icons/apple-touch-180.png">
+<link rel="manifest" href="/rainyblog/manifest.webmanifest">
+<meta name="theme-color" content="#ffffff">
+
+  <!-- Base href ensures all links are relative to the blog subpath -->
+  <base href="/rainyblog/">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/style.css">
+
+  <!-- Security -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Permissions-Policy"
+        content="accelerometer=(), camera=(), microphone=(), geolocation=()">
+</head>
+
+<body>
+  <header>
+    <nav>
+      <!-- Link back to table of contents -->
+      <a href="index.html">← Table of Contents</a>
+    </nav>
+    <h1>Article Title</h1>
+    <p><time datetime="2025-08-22">August 22, 2025</time> · <address>by Author Name</address></p>
+  </header>
+
+  <main>
+    <article>
+      <header>
+        <h2>Introduction</h2>
+      </header>
+
+      <p>This is the opening paragraph of the article. It introduces the topic without overwhelming the reader.</p>
+
+      <section>
+        <h2>Main Section Heading</h2>
+        <p>Here is a paragraph of body text. You can use <em>emphasis</em>, <strong>important text</strong>, and <abbr title="HyperText Markup Language">HTML</abbr> for clarity.</p>
+        <blockquote cite="https://example.com/source">
+          <p>“A relevant quotation that supports the argument.”</p>
+        </blockquote>
+      </section>
+
+      <section>
+        <h2>Another Section</h2>
+        <p>Include lists if helpful:</p>
+        <ul>
+          <li>First point</li>
+          <li>Second point</li>
+          <li>Third point</li>
+        </ul>
+      </section>
+
+      <footer>
+        <p><cite>Sources and references here</cite></p>
+      </footer>
+    </article>
+  </main>
+
+  <aside>
+    <!-- Optional: highlight related articles -->
+    <h2>Related Articles</h2>
+    <ul>
+      <li><a href="article2.html">Article 2 Title</a></li>
+      <li><a href="article3.html">Article 3 Title</a></li>
+    </ul>
+  </aside>
+
+  <footer>
+    <hr>
+    <p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a></p>
+    <p>&copy; 2025 Rainy Blog</p>
+  </footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Article Title – Rainy Blog</title>
+  <meta name="description" content="One-sentence summary of the article.">
+
+  <!-- Subpath safety -->
+  <base href="/rainyblog/">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/style.css">
+
+  <!-- Security -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta http-equiv="Permissions-Policy"
+        content="accelerometer=(), camera=(), microphone=(), geolocation=()">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header" role="banner">
+    <nav aria-label="Primary">
+      <a href="index.html">Table of Contents</a>
+      <a href="../">Main Site</a>
+    </nav>
+    <h1 class="site-title">Rainy Blog</h1>
+  </header>
+
+  <main id="content" class="layout">
+    <!-- Main article first in DOM for SR/keyboard -->
+    <article class="article" aria-labelledby="article-title">
+      <!-- Top image: small, informative -->
+      <figure class="lead-figure">
+        <picture>
+          <!-- Optional WebP -->
+          <source srcset="assets/img/topic-320x264.webp 320w,
+                          assets/img/topic-256x211.webp 256w,
+                          assets/img/topic-221x171.webp 221w"
+                  type="image/webp">
+          <img
+            src="assets/img/topic-256x211.jpg"
+            srcset="assets/img/topic-320x264.jpg 320w,
+                    assets/img/topic-256x211.jpg 256w,
+                    assets/img/topic-221x171.jpg 221w"
+            sizes="(min-width: 900px) 640px, 100vw"
+            width="256" height="211"
+            alt="Concise description of the article topic"
+            loading="eager" decoding="async">
+        </picture>
+        <figcaption class="visually-hidden">Topic confirmation image.</figcaption>
+      </figure>
+
+      <header class="article-header">
+        <h2 id="article-title">Article Title</h2>
+        <p class="byline">
+          <time datetime="2025-08-23">August 23, 2025</time>
+          <span aria-hidden="true">·</span>
+          <address class="author" rel="author">by Author Name</address>
+        </p>
+      </header>
+
+      <section>
+        <h3>Introduction</h3>
+        <p>Opening paragraph. Clear, short, and informative.</p>
+      </section>
+<figure class="lead-figure">
+  <picture>
+    <source
+      srcset="assets/img/topic-221x171.webp 221w,
+              assets/img/topic-256x211.webp 256w,
+              assets/img/topic-320x264.webp 320w"
+      type="image/webp">
+    <img
+      src="assets/img/topic-256x211.jpg"
+      srcset="assets/img/topic-221x171.jpg 221w,
+              assets/img/topic-256x211.jpg 256w,
+              assets/img/topic-320x264.jpg 320w"
+      sizes="(min-width: 900px) 640px, 100vw"
+      width="256" height="211"
+      alt="Concise description of the article topic"
+      loading="eager" decoding="async">
+  </picture>
+</figure>
+<figure>
+  <picture>
+    <source
+      srcset="assets/img/ex-480.webp 480w,
+              assets/img/ex-800.webp 800w,
+              assets/img/ex-1200.webp 1200w"
+      type="image/webp">
+    <img
+      src="assets/img/ex-800.jpg"
+      srcset="assets/img/ex-480.jpg 480w,
+              assets/img/ex-800.jpg 800w,
+              assets/img/ex-1200.jpg 1200w"
+      sizes="(min-width: 900px) 800px, 92vw"
+      width="800" height="600"
+      alt="Informative alt text"
+      loading="lazy" decoding="async">
+  </picture>
+  <figcaption>Short, functional caption.</figcaption>
+</figure>
+<a class="card" href="article-slug.html">
+  <img src="assets/thumbs/slug-160x120.webp"
+       width="160" height="120" alt="Slug thumbnail" loading="lazy" decoding="async">
+  <span class="card-title">Article Title</span>
+</a>
+
+      <section>
+        <h3>Main Section</h3>
+        <p>Use <em>emphasis</em>, <strong>importance</strong>, and <abbr title="HyperText Markup Language">HTML</abbr> as needed.</p>
+        <blockquote cite="https://example.org/source">
+          <p>“Short quotation supporting the point.”</p>
+        </blockquote>
+        <p>Example list:</p>
+        <ul>
+          <li>Point one</li>
+          <li>Point two</li>
+          <li>Point three</li>
+        </ul>
+      </section>
+
+      <footer class="article-footer">
+        <h3>References</h3>
+        <ul>
+          <li><cite>Source Title</cite></li>
+        </ul>
+      </footer>
+    </article>
+
+    <!-- Left flank: contextual nav or outline -->
+    <aside class="flank flank-left" aria-label="Context">
+      <nav aria-label="In this article">
+        <h2 class="aside-title">On this page</h2>
+        <ol>
+          <li><a href="#article-title">Top</a></li>
+          <li><a href="#article-title">Introduction</a></li>
+          <li><a href="#article-title">Main Section</a></li>
+        </ol>
+      </nav>
+    </aside>
+<p>Taijiquan has a long history. <a href="#fn1">[1]</a></p>
+
+<details id="fn1">
+  <summary>Footnote 1: Source reference</summary>
+  <p>This description comes from Cheng Tin Hung’s <cite>Tai Chi Transcendent Art</cite> (1985).</p>
+</details>
+<dl>
+  <dt>Push Hands</dt>
+  <dd>A partnered Tai Chi exercise for developing sensitivity and balance.</dd>
+
+  <dt>Silk Reeling</dt>
+  <dd>Spiraling movement practice in Chen-style Tai Chi.</dd>
+</dl>
+<ol>
+  <li>Stand with feet shoulder-width apart.</li>
+  <li>Shift weight onto the right leg.</li>
+  <li>Step forward with the left foot.</li>
+</ol>
+<p>The character <ruby>道<rt>dào</rt></ruby> means “way” or “path.”</p>
+<p><ruby>德<rp>(</rp><rt>dé</rt><rp>)</rp></ruby> means “virtue.”</p>
+<article>
+  <h2>Single Whip Movement</h2>
+  <p>In Tai Chi, the movement <ruby>單鞭<rp>(</rp><rt>dān biān</rt><rp>)</rp></ruby> 
+  is one of the most iconic postures.</p>
+
+  <section>
+    <h3>Steps</h3>
+    <ol>
+      <li>Shift weight to the right leg.</li>
+      <li>Open the left arm sideways.</li>
+      <li>Extend the right hand into a “hook.”</li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Glossary</h3>
+    <dl>
+      <dt>Hook Hand</dt>
+      <dd>Right hand forming a hook shape with fingers.</dd>
+      <dt>Rooting</dt>
+      <dd>Stable stance connecting the body to the ground.</dd>
+    </dl>
+  </section>
+
+  <details>
+    <summary>Historical note</summary>
+    <p>The form <em>Single Whip</em> appears in early Yang family manuals.</p>
+  </details>
+</article>
+        
+<!-- Place in header or sidebar -->
+<form role="search" action="search.html" method="get" aria-label="Site search">
+  <label for="q">Search articles</label>
+  <input id="q" name="q" type="search" inputmode="search"
+         required minlength="2" maxlength="80"
+         autocapitalize="none" autocomplete="off" spellcheck="false"
+         placeholder="Type keywords">
+  <button type="submit">Search</button>
+</form>
+
+    <!-- Right flank: real tabular data is OK to use <table> -->
+    <aside class="flank flank-right" aria-label="Article facts">
+      <h2 class="aside-title">Article facts</h2>
+<label for="q">Search articles</label>
+<input id="q" name="q" list="hints" type="search">
+<datalist id="hints">
+  <option value="push hands">
+  <option value="rooting">
+  <option value="breathing">
+</datalist>
+<form action="index.html" method="get" aria-label="Filter articles">
+  <label for="cat">Category</label>
+  <select id="cat" name="category">
+    <option value="">All</option>
+    <optgroup label="Practice">
+      <option value="warmups">Warmups</option>
+      <option value="forms">Forms</option>
+      <option value="push-hands">Push Hands</option>
+    </optgroup>
+    <optgroup label="Notes">
+      <option value="history">History</option>
+      <option value="glossary">Glossary</option>
+    </optgroup>
+  </select>
+  <button type="submit">Apply</button>
+</form>
+<form method="get" aria-label="Reading options">
+  <fieldset>
+    <legend>Reading options</legend>
+    <label for="fs">Font size</label>
+    <select id="fs" name="fs">
+      <option value="100">Normal</option>
+      <option value="112">Large</option>
+      <option value="125">Larger</option>
+    </select>
+
+    <label for="theme">Theme</label>
+    <select id="theme" name="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="sepia">Sepia</option>
+    </select>
+
+    <button type="submit">Update</button>
+  </fieldset>
+</form>
+
+      <table class="facts">
+        <caption>Metadata</caption>
+        <thead>
+          <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"><dfn>Category</dfn></th>
+            <td>Training Notes</td>
+          </tr>
+          <tr>
+            <th scope="row"><dfn>Reading time</dfn></th>
+            <td>6 minutes</td>
+          </tr>
+          <tr>
+            <th scope="row"><dfn>Version</dfn></th>
+            <td><time datetime="2025-08-23">v1.0</time></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <section aria-labelledby="related-heading">
+        <h3 id="related-heading">Related</h3>
+        <ul>
+          <li><a href="article2.html">Article 2 Title</a></li>
+          <li><a href="article3.html">Article 3 Title</a></li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <hr>
+    <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></p>
+    <p>&copy; 2025 Rainy Blog</p>
+  </footer>
+
+  <!-- No inline scripts. Keep JS in assets/app.js if needed. -->
+</body>
+</html>
+
+ADDITIONAL CSS:
+:root { line-height: 1.6; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+}
+.skip-link:focus {
+  left: 0; background: #000; color: #fff; padding: 0.5rem 0.75rem; z-index: 1000;
+}
+
+.site-header, .site-footer { padding: 1rem; }
+.site-header nav a { margin-right: 1rem; }
+
+.lead-figure { margin: 0 0 1rem 0; }
+.lead-figure img { display: block; height: auto; max-width: 100%; }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;     /* mobile first */
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Larger screens: three columns with narrow flanks */
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: 220px minmax(0, 1fr) 220px;
+    align-items: start;
+  }
+  .flank-left  { grid-column: 1; }
+  .article     { grid-column: 2; }
+  .flank-right { grid-column: 3; }
+}
+
+/* Aside styles */
+.flank { border: 1px solid #ddd; padding: 0.75rem; border-radius: 8px; background: #fafafa; }
+.aside-title { margin-top: 0; font-size: 1rem; }
+
+/* Article */
+.article-header h2 { margin-bottom: 0.25rem; }
+.byline { color: #555; font-size: 0.95rem; }
+
+/* Facts table: real data table, accessible */
+.facts { width: 100%; border-collapse: collapse; }
+.facts caption { text-align: left; font-weight: 600; padding: 0 0 0.5rem 0; }
+.facts th, .facts td { border: 1px solid #ddd; padding: 0.5rem; vertical-align: top; }
+.facts thead th { background: #f0f0f0; }
+.facts th[scope="row"] { width: 40%; }
+
+JSON
+{
+  "name": "Rainy Blog",
+  "short_name": "Rainy",
+  "icons": [
+    { "src": "assets/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "start_url": "/rainyblog/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff"
+}
+
+
+BASH FUNCTION:
+# From a square source logo.svg or logo.png
+magick -density 384 logo.svg -resize 16x16  assets/icons/favicon-16.png
+magick -density 384 logo.svg -resize 32x32  assets/icons/favicon-32.png
+magick -density 384 logo.svg -resize 180x180 assets/icons/apple-touch-180.png
+magick -density 384 logo.svg -resize 192x192 assets/icons/maskable-192.png
+magick -density 384 logo.svg -resize 512x512 assets/icons/maskable-512.png
+
+# Strip metadata and optimize
+mogrify -strip -define png:compression-level=9 assets/icons/*.png
+magick source.jpg -filter Lanczos -resize 320x264^ -gravity center -extent 320x264 assets/img/topic-320x264.jpg
+magick source.jpg -filter Lanczos -resize 256x211^ -gravity center -extent 256x211 assets/img/topic-256x211.jpg
+magick source.jpg -filter Lanczos -resize 221x171^ -gravity center -extent 221x171 assets/img/topic-221x171.jpg
+
+# WebP versions, quality tuned
+cwebp -q 72 assets/img/topic-320x264.jpg -o assets/img/topic-320x264.webp
+cwebp -q 72 assets/img/topic-256x211.jpg -o assets/img/topic-256x211.webp
+cwebp -q 72 assets/img/topic-221x171.jpg -o assets/img/topic-221x171.webp
+magick source.jpg -resize 1200x900^ -gravity center -extent 1200x900 assets/img/ex-1200.jpg
+magick source.jpg -resize 800x600^  -gravity center -extent 800x600  assets/img/ex-800.jpg
+magick source.jpg -resize 480x360^  -gravity center -extent 480x360  assets/img/ex-480.jpg
+
+cwebp -q 80 assets/img/ex-1200.jpg -o assets/img/ex-1200.webp
+cwebp -q 80 assets/img/ex-800.jpg  -o assets/img/ex-800.webp
+cwebp -q 80 assets/img/ex-480.jpg  -o assets/img/ex-480.webp
+magick source.jpg -resize 320x240^ -gravity center -extent 320x240 assets/thumbs/slug-320x240.jpg
+magick source.jpg -resize 160x120^ -gravity center -extent 160x120 assets/thumbs/slug-160x120.jpg
+cwebp -q 75 assets/thumbs/slug-320x240.jpg -o assets/thumbs/slug-320x240.webp
+cwebp -q 75 assets/thumbs/slug-160x120.jpg -o assets/thumbs/slug-160x120.webp
+magick source.jpg -resize 1200x630^ -gravity center -extent 1200x630 assets/og/slug-1200x630.jpg
+jpegoptim --max=82 --strip-all assets/og/slug-1200x630.jpg
+
+
+CSS ADDITIONAL:
+/* Prevent layout shift by reserving aspect ratios */
+.lead-figure img { display: block; max-width: 100%; height: auto; }
+figure { margin: 0 0 1rem 0; }
+.card { display: inline-block; text-decoration: none; color: inherit; }
+.card img { display: block; width: 100%; height: auto; }
+.card-title { display: block; padding: 0.5rem 0; font-weight: 600; }
+
+/* Optional: explicit aspect ratio for wrappers */
+.aspect-4-3 { aspect-ratio: 4 / 3; }
+.aspect-16-9 { aspect-ratio: 16 / 9; }
+
