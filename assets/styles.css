@@ -187,7 +187,7 @@ nav details[open] .menu { display: block; }
    COMPONENTS
    ========================================================= */
 /* Info grid: keep your existing cap */
-+.info-grid img { max-inline-size: var(--img-max-inline); }
+.info-grid img { max-inline-size: var(--img-max-inline); }
 
 
 /* If an item has no image, add .no-thumb in HTML */
@@ -213,8 +213,8 @@ nav details[open] .menu { display: block; }
    IMAGE MODES (driven by html[data-img-mode])
    ========================================================= */
 
-+html[data-img-mode="hidden"] article img,
-+html[data-img-mode="hidden"] main img     { display: none; }
+html[data-img-mode="hidden"] article img,
+html[data-img-mode="hidden"] main img     { display: none; }
 
 html[data-img-mode="compact"] figure > img{ max-inline-size: calc(var(--img-max-inline) * 0.66); }
 
