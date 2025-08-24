@@ -9,45 +9,85 @@
   <!-- <link rel="stylesheet" href="/css/site.css"> -->
 
   <style>
-    /* Minimal toolbar skin that respects your tokens */
-    #toolbar{
-      position: sticky; top: 0; z-index: 1000;
-      display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
-      padding: .5rem;
-      background: var(--surface-bg); color: var(--surface-fg);
-      border-block-end: 1px solid rgba(0,0,0,.08);
-      font-family: var(--ui-font-family);
-    }
-    #toolbar > *{ min-height: var(--tap-min); }
-    #toolbar label{ font-size: .95em; margin-right: .25rem; }
-    #toolbar select, #toolbar input[type="range"], #toolbar button{
-      font: inherit; padding: .35rem .5rem; border: 1px solid var(--field-border);
-      border-radius: .375rem; background: var(--field-bg); color: var(--field-fg);
-    }
-    #toolbar .spacer{ flex: 1 1 auto; }
-    .visually-hidden{
-      position:absolute!important;width:1px;height:1px;margin:-1px;border:0;padding:0;
-      clip-path: inset(50%); clip: rect(1px,1px,1px,1px); overflow:hidden; white-space:nowrap;
-    }
-    /* Optional: focus mode hides flanks and footer without touching print */
-    body.focus-mode .flank, body.focus-mode .site-footer{ display: none !important; }
+  /* Toolbar shell */
+  #toolbar {
+    position: sticky; top: 0; z-index: 1000;
+    display: grid; grid-template-columns: 1fr auto; align-items: center;
+    gap: .5rem; padding: .4rem .5rem;
+    background: var(--surface-bg); color: var(--surface-fg);
+    border-block-end: 1px solid var(--border-weak);
+    font-family: var(--ui-font-family);
+  }
+  #quick { display: flex; align-items: center; gap: .5rem; flex-wrap: nowrap; min-height: 48px; }
 
-    main{ max-width: var(--reader-max-width); margin-inline: auto;
-          padding: var(--reader-block-pad) var(--reader-inline-pad); }
-    article{ font-family: var(--reader-font-family);
-             text-align: var(--reader-text-align);
-             word-spacing: var(--reader-word-spacing);
-             letter-spacing: var(--reader-letter-spacing);
-             line-height: var(--reader-line-height); }
-  </style>
+  /* Keep controls small but touchable */
+  #quick select, #quick input[type="range"], #quick button {
+    font: inherit; padding: .3rem .45rem;
+    border: 1px solid var(--field-border);
+    border-radius: .375rem;
+    background: var(--field-bg); color: var(--field-fg);
+    min-height: 36px;
+  }
+  /* Narrow sliders so the bar stays short */
+  #size     { inline-size: clamp(110px, 16vw, 160px); }
+  #measure  { inline-size: clamp(110px, 20vw, 200px); }
+
+  /* Output readouts */
+  .readout { font-size: .9em; opacity: .85; min-width: 4ch; text-align: right; }
+
+  /* More panel uses details. It overlays under the bar when open and scrolls */
+  details.tools { position: relative; }
+  details.tools > summary {
+    list-style: none; cursor: pointer; user-select: none;
+    padding: .3rem .6rem; border: 1px solid var(--field-border);
+    border-radius: .375rem; background: var(--field-bg);
+  }
+  details.tools > summary::-webkit-details-marker { display: none; }
+  details.tools[open] > summary { outline: var(--focus-outline); outline-offset: var(--focus-offset); }
+
+  .panel {
+    position: fixed;
+    left: 0; right: 0;
+    top: calc(var(--header-h, 0px)); /* if you set --header-h, this respects it */
+    background: var(--surface-bg); color: var(--surface-fg);
+    border-block: 1px solid var(--border-weak);
+    padding: .75rem;
+    max-height: min(60vh, 36rem);
+    overflow: auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,.15);
+  }
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(12rem, 1fr));
+    gap: 1rem;
+  }
+  @media (max-width: 64em){
+    .panel-grid { grid-template-columns: repeat(2, minmax(12rem, 1fr)); }
+  }
+  @media (max-width: 40em){
+    .panel-grid { grid-template-columns: 1fr; }
+  }
+  .grp { border: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius: .5rem; padding: .75rem; }
+  .grp h3 { font-size: 1rem; margin: 0 0 .5rem 0; }
+  .grp label { display: block; font-size: .95em; margin: .25rem 0 .15rem; }
+  .grp .row { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+
+  /* Focus mode hides flanks and footer without touching print */
+  body.focus-mode .flank, body.focus-mode .site-footer { display: none !important; }
+
+  /* Live status */
+  #status { font-size: .9em; opacity: .85; }
+</style>
+
 </head>
 <body class="theme-light">
   <a class="visually-hidden" href="#content">Skip to content</a>
 
-  <!-- Reader toolbar -->
-  <div id="toolbar" role="region" aria-label="Reader controls">
-    <label for="theme">Theme</label>
-    <select id="theme" name="theme">
+ <div id="toolbar" role="region" aria-label="Reader controls">
+  <!-- Quick bar: tiny and single row -->
+  <div id="quick" role="group" aria-label="Quick controls">
+    <label for="theme" class="visually-hidden">Theme</label>
+    <select id="theme" name="theme" title="Theme">
       <option value="theme-light">Light</option>
       <option value="theme-dark">Dark</option>
       <option value="theme-sepia">Sepia</option>
@@ -55,56 +95,83 @@
       <option value="theme-high-contrast">High contrast</option>
     </select>
 
-    <label for="mag">Mag</label>
-    <select id="mag" name="mag" title="Magnification">
-      <option value="">Default</option>
-      <option value="lg">Large</option>
-      <option value="xl">Extra large</option>
-    </select>
-
-    <label for="imgmode">Images</label>
-    <select id="imgmode" name="imgmode" title="Image mode">
-      <option value="normal">Normal</option>
-      <option value="compact">Compact</option>
-      <option value="hidden">Hidden</option>
-    </select>
-
-    <label for="family">Font</label>
-    <select id="family" name="family" title="Reader font">
-      <option value='ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'>Serif</option>
-      <option value='ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif'>Sans</option>
-      <option value='ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'>Mono</option>
-      <option value='"Atkinson Hyperlegible","OpenDyslexic","Noto Sans",system-ui,sans-serif'>Dyslexia friendly</option>
-    </select>
-
     <label for="size">Size</label>
     <input id="size" type="range" min="0.75" max="1.75" step="0.0625" value="1.00" aria-describedby="sizeOut">
-    <output id="sizeOut">1.00rem</output>
+    <output id="sizeOut" class="readout">1.00rem</output>
 
     <label for="measure">Width</label>
     <input id="measure" type="range" min="40" max="80" step="1" value="45" aria-describedby="measureOut">
-    <output id="measureOut">45ch</output>
-
-    <label for="leading">Line</label>
-    <input id="leading" type="range" min="1.30" max="2.00" step="0.05" value="1.60" aria-describedby="leadingOut">
-    <output id="leadingOut">1.60</output>
-
-    <label for="align">Align</label>
-    <select id="align" name="align">
-      <option value="start">Start</option>
-      <option value="left">Left</option>
-      <option value="right">Right</option>
-      <option value="justify">Justify</option>
-      <option value="center">Center</option>
-    </select>
-
-    <div class="spacer" aria-hidden="true"></div>
+    <output id="measureOut" class="readout">45ch</output>
 
     <button type="button" id="focus" aria-pressed="false" title="Hide sidebars and footer">Focus</button>
-    <button type="button" id="save-session" title="Save for this tab">Save session</button>
-    <button type="button" id="save-persist" title="Save as device default">Save default</button>
-    <button type="button" id="reset" title="Reset to defaults">Reset</button>
+
+    <details class="tools">
+      <summary aria-controls="more-panel" aria-expanded="false">More</summary>
+      <div id="more-panel" class="panel" role="dialog" aria-label="Advanced reader settings">
+        <div class="panel-grid">
+          <section class="grp" aria-labelledby="grp-appearance">
+            <h3 id="grp-appearance">Appearance</h3>
+            <label for="mag">Magnification</label>
+            <select id="mag" name="mag">
+              <option value="">Default</option>
+              <option value="lg">Large</option>
+              <option value="xl">Extra large</option>
+            </select>
+
+            <label for="imgmode">Images</label>
+            <select id="imgmode" name="imgmode">
+              <option value="normal">Normal</option>
+              <option value="compact">Compact</option>
+              <option value="hidden">Hidden</option>
+            </select>
+          </section>
+
+          <section class="grp" aria-labelledby="grp-typography">
+            <h3 id="grp-typography">Typography</h3>
+            <label for="family">Font family</label>
+            <select id="family" name="family">
+              <option value='ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'>Serif</option>
+              <option value='ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif'>Sans</option>
+              <option value='ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'>Monospace</option>
+              <option value='"Atkinson Hyperlegible","OpenDyslexic","Noto Sans",system-ui,sans-serif'>Dyslexia friendly</option>
+            </select>
+
+            <label for="align">Align</label>
+            <select id="align" name="align">
+              <option value="left">Left</option>
+              <option value="start">Start</option>
+              <option value="right">Right</option>
+              <option value="justify">Justify</option>
+              <option value="center">Center</option>
+            </select>
+
+            <label for="leading">Line height</label>
+            <input id="leading" type="range" min="1.30" max="2.00" step="0.05" value="1.60" aria-describedby="leadingOut">
+            <output id="leadingOut" class="readout">1.60</output>
+          </section>
+
+          <section class="grp" aria-labelledby="grp-spacing">
+            <h3 id="grp-spacing">Spacing</h3>
+            <label for="lspace">Letter spacing</label>
+            <input id="lspace" type="range" min="0" max="0.04" step="0.005" value="0">
+            <label for="wspace">Word spacing</label>
+            <input id="wspace" type="range" min="0" max="0.08" step="0.005" value="0">
+          </section>
+
+          <section class="grp" aria-labelledby="grp-storage">
+            <h3 id="grp-storage">Storage</h3>
+            <div class="row">
+              <button type="button" id="save-session" title="Save for this tab">Save session</button>
+              <button type="button" id="save-persist" title="Save as device default">Save default</button>
+              <button type="button" id="reset" title="Reset to defaults">Reset</button>
+            </div>
+            <div id="status" aria-live="polite"></div>
+          </section>
+        </div>
+      </div>
+    </details>
   </div>
+</div>
 
   <!-- Layout skeleton -->
   <div class="layout">
@@ -152,104 +219,118 @@
     <small>Footer content. Hidden by Focus button. Print rules unaffected.</small>
   </footer>
 
-  <script>
-  (() => {
-    const html = document.documentElement;
-    const body = document.body;
-    const KEY = 'reader:settings';
+<script>
+(() => {
+  const html = document.documentElement;
+  const body = document.body;
+  const KEY = 'reader:settings';
 
-    const getVar = (n, fallback) => {
-      const v = getComputedStyle(html).getPropertyValue(n).trim();
-      return v || fallback;
-    };
+  // Helpers
+  const $ = (id) => document.getElementById(id);
+  const setVar = (k, v) => html.style.setProperty(k, v);
+  const getVar = (n, fallback) => {
+    const v = getComputedStyle(html).getPropertyValue(n).trim();
+    return v || fallback;
+  };
 
-    const defaults = {
-      theme: body.className.match(/theme-\w+/)?.[0] || 'theme-light',
-      mag: html.getAttribute('data-mag') || '',
-      imgmode: html.getAttribute('data-img-mode') || 'normal',
-      focus: body.classList.contains('focus-mode'),
-      family: getVar('--reader-font-family', 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'),
-      size: parseFloat(getVar('--reader-font-size', '1')) || 1.0,
-      measure: parseInt(getVar('--reader-max-width', '45ch'), 10) || 45,
-      leading: parseFloat(getVar('--reader-line-height', '1.6')) || 1.6,
-      align: getVar('--reader-text-align', 'left') || 'left',
-      lspace: parseFloat(getVar('--reader-letter-spacing', '0')) || 0,
-      wspace: parseFloat(getVar('--reader-word-spacing', '0')) || 0
-    };
+  // Defaults from tokens
+  const defaults = {
+    theme: body.className.match(/theme-\w+/)?.[0] || 'theme-light',
+    mag: html.getAttribute('data-mag') || '',
+    imgmode: html.getAttribute('data-img-mode') || 'normal',
+    focus: body.classList.contains('focus-mode'),
+    family: getVar('--reader-font-family', 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'),
+    size: parseFloat(getVar('--reader-font-size', '1')) || 1.0,
+    measure: parseInt(getVar('--reader-max-width', '45ch'), 10) || 45,
+    leading: parseFloat(getVar('--reader-line-height', '1.6')) || 1.6,
+    align: getVar('--reader-text-align', 'left') || 'left',
+    lspace: parseFloat(getVar('--reader-letter-spacing', '0')) || 0,
+    wspace: parseFloat(getVar('--reader-word-spacing', '0')) || 0
+  };
 
-    let state = { ...defaults };
+  let state = { ...defaults };
 
-    // Controls
-    const $ = (id) => document.getElementById(id);
-    const setVar = (k, v) => html.style.setProperty(k, v);
+  function render() {
+    // Theme and structural toggles
+    body.classList.remove('theme-light','theme-dark','theme-sepia','theme-gray','theme-high-contrast');
+    body.classList.add(state.theme);
+    if (state.mag) html.setAttribute('data-mag', state.mag); else html.removeAttribute('data-mag');
+    html.setAttribute('data-img-mode', state.imgmode);
+    body.classList.toggle('focus-mode', !!state.focus);
+    $('focus').setAttribute('aria-pressed', state.focus ? 'true' : 'false');
 
-    function render() {
-      // Theme, magnification, images, focus
-      body.classList.remove('theme-light','theme-dark','theme-sepia','theme-gray','theme-high-contrast');
-      body.classList.add(state.theme);
-      if (state.mag) html.setAttribute('data-mag', state.mag); else html.removeAttribute('data-mag');
-      html.setAttribute('data-img-mode', state.imgmode);
-      body.classList.toggle('focus-mode', !!state.focus);
-      $('focus').setAttribute('aria-pressed', state.focus ? 'true' : 'false');
+    // Tokens
+    setVar('--reader-font-family', state.family);
+    setVar('--reader-font-size', state.size + 'rem');           $('sizeOut').value = state.size.toFixed(2) + 'rem';
+    setVar('--reader-max-width', state.measure + 'ch');         $('measureOut').value = state.measure + 'ch';
+    setVar('--reader-line-height', state.leading);              $('leadingOut').value = state.leading.toFixed(2);
+    setVar('--reader-text-align', state.align);
+    setVar('--reader-letter-spacing', state.lspace + 'em');
+    setVar('--reader-word-spacing', state.wspace + 'em');
 
-      // Typography variables
-      setVar('--reader-font-family', state.family);
-      setVar('--reader-font-size', state.size + 'rem');
-      setVar('--reader-max-width', state.measure + 'ch');
-      setVar('--reader-line-height', state.leading);
-      setVar('--reader-text-align', state.align);
-      setVar('--reader-letter-spacing', state.lspace + 'em');
-      setVar('--reader-word-spacing', state.wspace + 'em');
+    // Inputs
+    $('theme').value = state.theme;
+    $('mag').value = state.mag;
+    $('imgmode').value = state.imgmode;
+    $('family').value = state.family;
+    $('size').value = state.size;
+    $('measure').value = state.measure;
+    $('leading').value = state.leading;
+    $('align').value = state.align;
+  }
 
-      // Outputs and inputs
-      $('theme').value = state.theme;
-      $('mag').value = state.mag;
-      $('imgmode').value = state.imgmode;
-      $('family').value = state.family;
-      $('size').value = state.size;
-      $('sizeOut').value = state.size.toFixed(2) + 'rem';
-      $('measure').value = state.measure;
-      $('measureOut').value = state.measure + 'ch';
-      $('leading').value = state.leading;
-      $('leadingOut').value = state.leading.toFixed(2);
-      $('align').value = state.align;
-    }
+  // Quick bar bindings
+  $('theme').addEventListener('change', e => { state.theme = e.target.value; render(); });
+  $('size').addEventListener('input', e => { state.size = +e.target.value; setVar('--reader-font-size', state.size + 'rem'); $('sizeOut').value = state.size.toFixed(2) + 'rem'; });
+  $('measure').addEventListener('input', e => { state.measure = parseInt(e.target.value, 10); setVar('--reader-max-width', state.measure + 'ch'); $('measureOut').value = state.measure + 'ch'; });
+  $('focus').addEventListener('click', () => { state.focus = !state.focus; render(); });
 
-    // Event bindings
-    $('theme').addEventListener('change', e => { state.theme = e.target.value; render(); });
-    $('mag').addEventListener('change', e => { state.mag = e.target.value; render(); });
-    $('imgmode').addEventListener('change', e => { state.imgmode = e.target.value; render(); });
-    $('family').addEventListener('change', e => { state.family = e.target.value; render(); });
-    $('size').addEventListener('input', e => { state.size = +e.target.value; $('sizeOut').value = state.size.toFixed(2) + 'rem'; setVar('--reader-font-size', state.size + 'rem'); });
-    $('measure').addEventListener('input', e => { state.measure = parseInt(e.target.value,10); $('measureOut').value = state.measure + 'ch'; setVar('--reader-max-width', state.measure + 'ch'); });
-    $('leading').addEventListener('input', e => { state.leading = +e.target.value; $('leadingOut').value = state.leading.toFixed(2); setVar('--reader-line-height', state.leading); });
-    $('align').addEventListener('change', e => { state.align = e.target.value; setVar('--reader-text-align', state.align); });
-    $('focus').addEventListener('click', () => { state.focus = !state.focus; render(); });
+  // More panel bindings
+  $('mag').addEventListener('change', e => { state.mag = e.target.value; render(); });
+  $('imgmode').addEventListener('change', e => { state.imgmode = e.target.value; render(); });
+  $('family').addEventListener('change', e => { state.family = e.target.value; render(); });
+  $('leading').addEventListener('input', e => { state.leading = +e.target.value; setVar('--reader-line-height', state.leading); $('leadingOut').value = state.leading.toFixed(2); });
+  $('align').addEventListener('change', e => { state.align = e.target.value; setVar('--reader-text-align', state.align); });
 
-    // Storage
-    $('save-session').addEventListener('click', () => sessionStorage.setItem(KEY, JSON.stringify(state)));
-    $('save-persist').addEventListener('click', () => localStorage.setItem(KEY, JSON.stringify(state)));
-    $('reset').addEventListener('click', () => { state = { ...defaults }; sessionStorage.removeItem(KEY); render(); });
+  // Spacing sliders appear in panel markup
+  const lspace = $('lspace'), wspace = $('wspace');
+  if (lspace) lspace.addEventListener('input', e => { state.lspace = +e.target.value; setVar('--reader-letter-spacing', state.lspace + 'em'); });
+  if (wspace) wspace.addEventListener('input', e => { state.wspace = +e.target.value; setVar('--reader-word-spacing', state.wspace + 'em'); });
 
-    // Keyboard shortcuts: + / - size, [ / ] width, F focus
-    document.addEventListener('keydown', (ev) => {
-      if (['INPUT','SELECT','TEXTAREA'].includes(ev.target.tagName)) return;
-      if (ev.key === '+'){ ev.preventDefault(); state.size = Math.min(1.75, +(state.size + 0.0625).toFixed(4)); render(); }
-      if (ev.key === '-' || ev.key === '_'){ ev.preventDefault(); state.size = Math.max(0.75, +(state.size - 0.0625).toFixed(4)); render(); }
-      if (ev.key === '['){ ev.preventDefault(); state.measure = Math.max(40, state.measure - 1); render(); }
-      if (ev.key === ']'){ ev.preventDefault(); state.measure = Math.min(80, state.measure + 1); render(); }
-      if (ev.key.toLowerCase() === 'f'){ ev.preventDefault(); state.focus = !state.focus; render(); }
+  // Storage
+  const status = $('status');
+  function say(msg){ if(!status) return; status.textContent = msg; clearTimeout(say._t); say._t = setTimeout(()=>status.textContent='', 2000); }
+  $('save-session').addEventListener('click', () => { sessionStorage.setItem(KEY, JSON.stringify(state)); say('Saved for this tab.'); });
+  $('save-persist').addEventListener('click', () => { localStorage.setItem(KEY, JSON.stringify(state)); say('Saved as device default.'); });
+  $('reset').addEventListener('click', () => { state = { ...defaults }; sessionStorage.removeItem(KEY); render(); say('Reset.'); });
+
+  // Keyboard shortcuts for quick bar
+  document.addEventListener('keydown', (ev) => {
+    if (['INPUT','SELECT','TEXTAREA'].includes(ev.target.tagName)) return;
+    if (ev.key === '+'){ ev.preventDefault(); state.size = Math.min(1.75, +(state.size + 0.0625).toFixed(4)); render(); }
+    if (ev.key === '-' || ev.key === '_'){ ev.preventDefault(); state.size = Math.max(0.75, +(state.size - 0.0625).toFixed(4)); render(); }
+    if (ev.key === '['){ ev.preventDefault(); state.measure = Math.max(40, state.measure - 1); render(); }
+    if (ev.key === ']'){ ev.preventDefault(); state.measure = Math.min(80, state.measure + 1); render(); }
+    if (ev.key.toLowerCase() === 'f'){ ev.preventDefault(); state.focus = !state.focus; render(); }
+  });
+
+  // Keep summary aria-expanded in sync
+  const tools = document.querySelector('details.tools > summary');
+  if (tools){
+    const detailsEl = tools.parentElement;
+    detailsEl.addEventListener('toggle', () => {
+      tools.setAttribute('aria-expanded', detailsEl.open ? 'true' : 'false');
     });
+  }
 
-    // Load from session first, then local
-    (function load(){
-      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
-      if (raw) {
-        try { state = { ...state, ...JSON.parse(raw) }; } catch {}
-      }
-      render();
-    })();
+  // Load state
+  (function load(){
+    const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
+    if (raw) { try { state = { ...state, ...JSON.parse(raw) }; } catch {} }
+    render();
   })();
-  </script>
+})();
+</script>
+
 </body>
 </html>
