@@ -2415,3 +2415,52 @@ blockquote{ border-inline-start: 3px solid currentColor; }
   /* Ensure links and buttons meet tap size */
   a, button{ min-height: var(--tap-min); min-inline-size: var(--tap-min); }
 }
+
+
+/* ===== Reader shims (only if your main CSS is absent on this page) ===== */
+:root{
+  /* core reader tokens */
+  --reader-font-size: 1rem;
+  --reader-line-height: 1.6;
+  --reader-max-width: 45ch;
+  --reader-text-align: left;
+  --reader-word-spacing: 0;
+  --reader-letter-spacing: 0;
+
+  /* UI surfaces */
+  --surface-bg: #ffffff;
+  --surface-fg: #222222;
+  --canvas-bg: #f5f5f5;
+}
+
+/* theme classes your JS toggles */
+body.theme-light  { --surface-bg:#ffffff; --surface-fg:#222;    --canvas-bg:#f5f5f5; }
+body.theme-dark   { --surface-bg:#111;    --surface-fg:#f2f2f2; --canvas-bg:#000; }
+body.theme-sepia  { --surface-bg:#f4ecd8; --surface-fg:#5b4636; --canvas-bg:#f4ecd8; }
+body.theme-gray   { --surface-bg:#e0e0e0; --surface-fg:#222;    --canvas-bg:#ccc; }
+body.theme-high-contrast { --surface-bg:#000; --surface-fg:#fff; --canvas-bg:#000; }
+
+html, body{ background: var(--canvas-bg); color: var(--surface-fg); }
+
+/* magnification presets your JS sets via html[data-mag] */
+html[data-mag="lg"]{
+  --reader-font-size: 1.25rem;
+  --reader-line-height: 1.7;
+  --reader-word-spacing: .02em;
+  --reader-letter-spacing: .01em;
+}
+html[data-mag="xl"]{
+  --reader-font-size: 1.5rem;
+  --reader-line-height: 1.8;
+  --reader-word-spacing: .04em;
+  --reader-letter-spacing: .02em;
+}
+
+/* image modes your JS sets via html[data-img-mode] */
+html[data-img-mode="hidden"] main img,
+html[data-img-mode="hidden"] article img { display: none; }
+html[data-img-mode="compact"] figure > img{
+  max-inline-size: calc(var(--img-max-inline, 150px) * .66);
+}
+.no-hide{ display: inline-block !important; }
+
