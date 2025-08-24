@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en" data-mag="lg" data-img-mode="normal">
+<head>
+  <meta charset="utf-8">
+  <title>Reader Demo · Rainy Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2730%27 fill=%27%23000%27/%3E%3Ctext x=%2732%27 y=%2738%27 text-anchor=%27middle%27 font-size=%2732%27 fill=%27%23fff%27%3ER%3C/text%3E%3C/svg%3E">
+  <!-- Link your CSS file here -->
+  <!-- <link rel="stylesheet" href="/css/reader.css"> -->
+  <style>reader.css</style>
+</head>
+
+<body class="theme-light">
+  <a class="visually-hidden" href="#main">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <div class="center" style="justify-content:start; gap:.75rem; display:flex;">
+      <svg class="no-hide" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" />
+        <text x="12" y="16" text-anchor="middle" font-size="12" fill="currentColor">R</text>
+      </svg>
+      <strong>Rainy Blog Reader</strong>
+    </div>
+
+    <nav aria-label="Primary">
+      <details>
+        <summary class="hamburger" aria-controls="mainmenu" aria-expanded="false">Menu</summary>
+        <div id="mainmenu" class="menu">
+          <a href="/">Home</a>
+          <a href="/blog/">Blog</a>
+          <a href="/articles/">Articles</a>
+          <a href="/about/">About</a>
+        </div>
+      </details>
+    </nav>
+  </header>
+
+  <main id="main" class="layout" role="main">
+    <!-- Left flank: on this page -->
+    <aside class="flank flank-left" aria-label="On this page">
+      <h2 class="aside-title">Contents</h2>
+      <nav aria-label="In-page">
+        <ol>
+          <li><a href="#intro">Introduction</a></li>
+          <li><a href="#excerpt">Sample Excerpt</a></li>
+          <li><a href="#media">Figures</a></li>
+          <li><a href="#notes">Notes</a></li>
+          <li><a href="#further">Further Reading</a></li>
+        </ol>
+      </nav>
+
+      <form role="search" aria-label="Search posts">
+        <label for="q">Search</label>
+        <input id="q" type="search" name="q" placeholder="Find a post">
+        <button type="submit">Search</button>
+        <p class="help-text">No JavaScript required for basic submission.</p>
+      </form>
+
+      <!-- Reader preferences planned for JS control later -->
+      <section aria-labelledby="prefs">
+        <h2 id="prefs" class="aside-title">Reader preferences</h2>
+        <fieldset aria-describedby="prefhelp">
+          <legend>Theme</legend>
+          <div class="choice"><input id="t1" type="radio" name="theme" value="light" checked><label for="t1">Light</label></div>
+          <div class="choice"><input id="t2" type="radio" name="theme" value="dark"><label for="t2">Dark</label></div>
+          <div class="choice"><input id="t3" type="radio" name="theme" value="sepia"><label for="t3">Sepia</label></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Magnification</legend>
+          <div class="choice"><input id="m1" type="radio" name="mag" value="1"><label for="m1">Default</label></div>
+          <div class="choice"><input id="m2" type="radio" name="mag" value="lg" checked><label for="m2">Large</label></div>
+          <div class="choice"><input id="m3" type="radio" name="mag" value="xl"><label for="m3">Extra large</label></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Images</legend>
+          <div class="choice"><input id="i1" type="radio" name="imgmode" value="normal" checked><label for="i1">Normal</label></div>
+          <div class="choice"><input id="i2" type="radio" name="imgmode" value="compact"><label for="i2">Compact</label></div>
+          <div class="choice"><input id="i3" type="radio" name="imgmode" value="hidden"><label for="i3">Hidden</label></div>
+        </fieldset>
+        <p id="prefhelp" class="help-text">These controls will bind to <code>body.className</code> or <code>html[data-*]</code> later.</p>
+      </section>
+    </aside>
+
+    <!-- Article column -->
+    <article class="article h-entry" id="2025-08-24-reader-demo" itemscope itemtype="https://schema.org/Article">
+      <header class="article-header">
+        <h1 class="p-name" itemprop="headline">Designing a No-JS Reader that Still Feels First-Class</h1>
+        <address class="byline">
+          <span>By <a rel="author" class="p-author h-card" href="/about/" itemprop="author">Rainy</a></span>
+          <span aria-hidden="true">·</span>
+          <time class="dt-published" datetime="2025-08-24" itemprop="datePublished">24 Aug 2025</time>
+          <span aria-hidden="true">·</span>
+          <span class="meta">
+            <span class="p-category tag">accessibility</span>
+            <span class="p-category tag">typography</span>
+            <span class="p-category tag">performance</span>
+          </span>
+        </address>
+      </header>
+
+      <section id="intro" class="prose e-content" itemprop="articleBody">
+        <p>This page demonstrates your CSS tokens working together inside a single column that expands to a three-column grid at wider widths. Everything here is keyboard reachable and screen reader friendly.</p>
+        <p>Ruby example for language learning:</p>
+        <p>
+          <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+          <ruby>可<rp>(</rp><rt>kě</rt><rp>)</rp></ruby>
+          <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+          <ruby>非<rp>(</rp><rt>fēi</rt><rp>)</rp></ruby>
+          <ruby>常<rp>(</rp><rt>cháng</rt><rp>)</rp></ruby>
+          <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+        </p>
+
+        <blockquote>
+          <p>Readable typesetting comes from steady rhythm, controlled measure, and consistent focus cues.</p>
+        </blockquote>
+      </section>
+
+      <figure id="media" class="lead-figure">
+        <img src="https://via.placeholder.com/800x450" alt="Sample figure that scales to the reading column" loading="lazy" class="img-zoom">
+        <figcaption>Lead figure inside the reading column. Click feedback will be added later.</figcaption>
+      </figure>
+
+      <section id="excerpt" class="prose">
+        <h2>Sample Excerpt</h2>
+        <p>Lists use outside markers at these measures and flow without layout shifts:</p>
+        <ul>
+          <li>Readable measure targets via <code>--reader-max-width</code></li>
+          <li>Predictable headings using your <code>--h1..--h6</code> scale</li>
+          <li>Tap targets that honor <code>--tap-min</code></li>
+        </ul>
+
+        <pre><code>// Code sample uses your mono tokens
+function measure(node){
+  const width = node.getBoundingClientRect().width;
+  return Math.round(width);
+}
+</code></pre>
+
+        <details id="fn1">
+          <summary>Footnote 1</summary>
+          <p>Footnote blocks use a dashed border and internal padding for scan-ability.</p>
+        </details>
+      </section>
+
+      <section id="further">
+        <h2>Further Reading</h2>
+
+        <!-- Cards with and without thumbnails -->
+        <ul class="info-grid card-list" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(16rem,1fr)); gap:1rem;">
+          <li>
+            <a class="card" href="#post-a">
+              <img src="https://via.placeholder.com/160x90" alt="" width="160" height="90" loading="lazy">
+              <div>
+                <div class="card-title truncate">Granular media queries that respect content</div>
+                <small class="meta">8 min read</small>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="#post-b">
+              <span class="no-hide icon" aria-hidden="true">📄</span>
+              <div>
+                <div class="card-title">A11y quick checks for reader layouts</div>
+                <small class="meta">5 min read</small>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a class="card" href="#post-c">
+              <img src="https://via.placeholder.com/120" alt="" width="120" height="120" loading="lazy">
+              <div>
+                <div class="card-title truncate">When to hide, compact, or show images</div>
+                <small class="meta">6 min read</small>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </article>
+
+    <!-- Right flank: facts or metadata -->
+    <aside class="flank flank-right" aria-label="Article facts">
+      <h2 class="aside-title">Article facts</h2>
+      <table class="facts">
+        <caption>Summary</caption>
+        <tbody>
+          <tr><th scope="row">Words</th><td>1,240</td></tr>
+          <tr><th scope="row">Images</th><td>1</td></tr>
+          <tr><th scope="row">Updated</th><td><time datetime="2025-08-24">24 Aug 2025</time></td></tr>
+        </tbody>
+      </table>
+
+      <section aria-labelledby="downloads">
+        <h2 id="downloads" class="aside-title">Downloads</h2>
+        <p><a href="#">Plain text</a></p>
+        <p><a href="#">Printable PDF</a></p>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <small>&copy; 2025 Rainy. CC-BY-SA where applicable.</small>
+  </footer>
+
+  <noscript>
+    <p class="center">JavaScript is off. The layout and reading experience still work. Interactive preferences will be available when JS is enabled.</p>
+  </noscript>
+</body>
+</html>
