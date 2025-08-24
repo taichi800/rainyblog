@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en" data-mag="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Custom Reader Mode</title>
+  <!-- Link your main CSS with the tokens you shared -->
+      <link rel="stylesheet" href="reader.css">
+  <!-- <link rel="stylesheet" href="/css/site.css"> -->
+
+  <style>
+    /* Minimal toolbar skin that respects your tokens */
+    #toolbar{
+      position: sticky; top: 0; z-index: 1000;
+      display: flex; flex-wrap: wrap; gap: .5rem; align-items: center;
+      padding: .5rem;
+      background: var(--surface-bg); color: var(--surface-fg);
+      border-block-end: 1px solid rgba(0,0,0,.08);
+      font-family: var(--ui-font-family);
+    }
+    #toolbar > *{ min-height: var(--tap-min); }
+    #toolbar label{ font-size: .95em; margin-right: .25rem; }
+    #toolbar select, #toolbar input[type="range"], #toolbar button{
+      font: inherit; padding: .35rem .5rem; border: 1px solid var(--field-border);
+      border-radius: .375rem; background: var(--field-bg); color: var(--field-fg);
+    }
+    #toolbar .spacer{ flex: 1 1 auto; }
+    .visually-hidden{
+      position:absolute!important;width:1px;height:1px;margin:-1px;border:0;padding:0;
+      clip-path: inset(50%); clip: rect(1px,1px,1px,1px); overflow:hidden; white-space:nowrap;
+    }
+    /* Optional: focus mode hides flanks and footer without touching print */
+    body.focus-mode .flank, body.focus-mode .site-footer{ display: none !important; }
+
+    main{ max-width: var(--reader-max-width); margin-inline: auto;
+          padding: var(--reader-block-pad) var(--reader-inline-pad); }
+    article{ font-family: var(--reader-font-family);
+             text-align: var(--reader-text-align);
+             word-spacing: var(--reader-word-spacing);
+             letter-spacing: var(--reader-letter-spacing);
+             line-height: var(--reader-line-height); }
+  </style>
+</head>
+<body class="theme-light">
+  <a class="visually-hidden" href="#content">Skip to content</a>
+
+  <!-- Reader toolbar -->
+  <div id="toolbar" role="region" aria-label="Reader controls">
+    <label for="theme">Theme</label>
+    <select id="theme" name="theme">
+      <option value="theme-light">Light</option>
+      <option value="theme-dark">Dark</option>
+      <option value="theme-sepia">Sepia</option>
+      <option value="theme-gray">Gray</option>
+      <option value="theme-high-contrast">High contrast</option>
+    </select>
+
+    <label for="mag">Mag</label>
+    <select id="mag" name="mag" title="Magnification">
+      <option value="">Default</option>
+      <option value="lg">Large</option>
+      <option value="xl">Extra large</option>
+    </select>
+
+    <label for="imgmode">Images</label>
+    <select id="imgmode" name="imgmode" title="Image mode">
+      <option value="normal">Normal</option>
+      <option value="compact">Compact</option>
+      <option value="hidden">Hidden</option>
+    </select>
+
+    <label for="family">Font</label>
+    <select id="family" name="family" title="Reader font">
+      <option value='ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'>Serif</option>
+      <option value='ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif'>Sans</option>
+      <option value='ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'>Mono</option>
+      <option value='"Atkinson Hyperlegible","OpenDyslexic","Noto Sans",system-ui,sans-serif'>Dyslexia friendly</option>
+    </select>
+
+    <label for="size">Size</label>
+    <input id="size" type="range" min="0.75" max="1.75" step="0.0625" value="1.00" aria-describedby="sizeOut">
+    <output id="sizeOut">1.00rem</output>
+
+    <label for="measure">Width</label>
+    <input id="measure" type="range" min="40" max="80" step="1" value="45" aria-describedby="measureOut">
+    <output id="measureOut">45ch</output>
+
+    <label for="leading">Line</label>
+    <input id="leading" type="range" min="1.30" max="2.00" step="0.05" value="1.60" aria-describedby="leadingOut">
+    <output id="leadingOut">1.60</output>
+
+    <label for="align">Align</label>
+    <select id="align" name="align">
+      <option value="start">Start</option>
+      <option value="left">Left</option>
+      <option value="right">Right</option>
+      <option value="justify">Justify</option>
+      <option value="center">Center</option>
+    </select>
+
+    <div class="spacer" aria-hidden="true"></div>
+
+    <button type="button" id="focus" aria-pressed="false" title="Hide sidebars and footer">Focus</button>
+    <button type="button" id="save-session" title="Save for this tab">Save session</button>
+    <button type="button" id="save-persist" title="Save as device default">Save default</button>
+    <button type="button" id="reset" title="Reset to defaults">Reset</button>
+  </div>
+
+  <!-- Layout skeleton -->
+  <div class="layout">
+    <aside class="flank flank-left" aria-label="On this page">
+      <h2 class="aside-title">Contents</h2>
+      <ol>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#demo">Demo</a></li>
+      </ol>
+    </aside>
+
+    <main id="content" class="article">
+      <article>
+        <header class="article-header">
+          <h1 id="intro">Token-driven reader</h1>
+          <p class="meta">Controls write to `--reader-*` variables and data attributes.</p>
+        </header>
+        <section id="demo" class="prose">
+          <p>Use the toolbar. The column width slider adjusts `--reader-max-width` in characters, not pixels.</p>
+          <p>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+            <ruby>可<rp>(</rp><rt>kě</rt><rp>)</rp></ruby>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+            <ruby>非<rp>(</rp><rt>fēi</rt><rp>)</rp></ruby>
+            <ruby>常<rp>(</rp><rt>cháng</rt><rp>)</rp></ruby>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+          </p>
+          <figure class="lead-figure">
+            <img src="https://via.placeholder.com/800x450" alt="Scaled figure" loading="lazy">
+            <figcaption>Figure respects the selected image mode.</figcaption>
+          </figure>
+        </section>
+      </article>
+    </main>
+
+    <aside class="flank flank-right" aria-label="Facts">
+      <h2 class="aside-title">Facts</h2>
+      <table class="facts"><tbody>
+        <tr><th scope="row">Updated</th><td><time>2025-08-24</time></td></tr>
+      </tbody></table>
+    </aside>
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <small>Footer content. Hidden by Focus button. Print rules unaffected.</small>
+  </footer>
+
+  <script>
+  (() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const KEY = 'reader:settings';
+
+    const getVar = (n, fallback) => {
+      const v = getComputedStyle(html).getPropertyValue(n).trim();
+      return v || fallback;
+    };
+
+    const defaults = {
+      theme: body.className.match(/theme-\w+/)?.[0] || 'theme-light',
+      mag: html.getAttribute('data-mag') || '',
+      imgmode: html.getAttribute('data-img-mode') || 'normal',
+      focus: body.classList.contains('focus-mode'),
+      family: getVar('--reader-font-family', 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'),
+      size: parseFloat(getVar('--reader-font-size', '1')) || 1.0,
+      measure: parseInt(getVar('--reader-max-width', '45ch'), 10) || 45,
+      leading: parseFloat(getVar('--reader-line-height', '1.6')) || 1.6,
+      align: getVar('--reader-text-align', 'left') || 'left',
+      lspace: parseFloat(getVar('--reader-letter-spacing', '0')) || 0,
+      wspace: parseFloat(getVar('--reader-word-spacing', '0')) || 0
+    };
+
+    let state = { ...defaults };
+
+    // Controls
+    const $ = (id) => document.getElementById(id);
+    const setVar = (k, v) => html.style.setProperty(k, v);
+
+    function render() {
+      // Theme, magnification, images, focus
+      body.classList.remove('theme-light','theme-dark','theme-sepia','theme-gray','theme-high-contrast');
+      body.classList.add(state.theme);
+      if (state.mag) html.setAttribute('data-mag', state.mag); else html.removeAttribute('data-mag');
+      html.setAttribute('data-img-mode', state.imgmode);
+      body.classList.toggle('focus-mode', !!state.focus);
+      $('focus').setAttribute('aria-pressed', state.focus ? 'true' : 'false');
+
+      // Typography variables
+      setVar('--reader-font-family', state.family);
+      setVar('--reader-font-size', state.size + 'rem');
+      setVar('--reader-max-width', state.measure + 'ch');
+      setVar('--reader-line-height', state.leading);
+      setVar('--reader-text-align', state.align);
+      setVar('--reader-letter-spacing', state.lspace + 'em');
+      setVar('--reader-word-spacing', state.wspace + 'em');
+
+      // Outputs and inputs
+      $('theme').value = state.theme;
+      $('mag').value = state.mag;
+      $('imgmode').value = state.imgmode;
+      $('family').value = state.family;
+      $('size').value = state.size;
+      $('sizeOut').value = state.size.toFixed(2) + 'rem';
+      $('measure').value = state.measure;
+      $('measureOut').value = state.measure + 'ch';
+      $('leading').value = state.leading;
+      $('leadingOut').value = state.leading.toFixed(2);
+      $('align').value = state.align;
+    }
+
+    // Event bindings
+    $('theme').addEventListener('change', e => { state.theme = e.target.value; render(); });
+    $('mag').addEventListener('change', e => { state.mag = e.target.value; render(); });
+    $('imgmode').addEventListener('change', e => { state.imgmode = e.target.value; render(); });
+    $('family').addEventListener('change', e => { state.family = e.target.value; render(); });
+    $('size').addEventListener('input', e => { state.size = +e.target.value; $('sizeOut').value = state.size.toFixed(2) + 'rem'; setVar('--reader-font-size', state.size + 'rem'); });
+    $('measure').addEventListener('input', e => { state.measure = parseInt(e.target.value,10); $('measureOut').value = state.measure + 'ch'; setVar('--reader-max-width', state.measure + 'ch'); });
+    $('leading').addEventListener('input', e => { state.leading = +e.target.value; $('leadingOut').value = state.leading.toFixed(2); setVar('--reader-line-height', state.leading); });
+    $('align').addEventListener('change', e => { state.align = e.target.value; setVar('--reader-text-align', state.align); });
+    $('focus').addEventListener('click', () => { state.focus = !state.focus; render(); });
+
+    // Storage
+    $('save-session').addEventListener('click', () => sessionStorage.setItem(KEY, JSON.stringify(state)));
+    $('save-persist').addEventListener('click', () => localStorage.setItem(KEY, JSON.stringify(state)));
+    $('reset').addEventListener('click', () => { state = { ...defaults }; sessionStorage.removeItem(KEY); render(); });
+
+    // Keyboard shortcuts: + / - size, [ / ] width, F focus
+    document.addEventListener('keydown', (ev) => {
+      if (['INPUT','SELECT','TEXTAREA'].includes(ev.target.tagName)) return;
+      if (ev.key === '+'){ ev.preventDefault(); state.size = Math.min(1.75, +(state.size + 0.0625).toFixed(4)); render(); }
+      if (ev.key === '-' || ev.key === '_'){ ev.preventDefault(); state.size = Math.max(0.75, +(state.size - 0.0625).toFixed(4)); render(); }
+      if (ev.key === '['){ ev.preventDefault(); state.measure = Math.max(40, state.measure - 1); render(); }
+      if (ev.key === ']'){ ev.preventDefault(); state.measure = Math.min(80, state.measure + 1); render(); }
+      if (ev.key.toLowerCase() === 'f'){ ev.preventDefault(); state.focus = !state.focus; render(); }
+    });
+
+    // Load from session first, then local
+    (function load(){
+      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
+      if (raw) {
+        try { state = { ...state, ...JSON.parse(raw) }; } catch {}
+      }
+      render();
+    })();
+  })();
+  </script>
+</body>
+</html>
