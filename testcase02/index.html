@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en" data-mag="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reader Mode — Token-driven</title>
+  <meta name="color-scheme" content="light dark">
+
+  <!-- Your site CSS should already define all tokens shown below -->
+  <!-- <link rel="stylesheet" href="/css/site.css"> -->
+
+  <style>
+    /* Minimal toolbar skin that respects your tokens */
+    #toolbar {
+      position: sticky; top: 0; z-index: 1000;
+      display: grid; gap: .5rem;
+      grid-template-columns: 1fr;
+      padding: .5rem;
+      background: var(--surface-bg);
+      color: var(--surface-fg);
+      border-block-end: 1px solid rgba(0,0,0,.08);
+      font-family: var(--ui-font-family);
+    }
+    #toolbar form { display: grid; gap: .5rem; }
+    .row { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+    .row > * { min-height: var(--tap-min); }
+    .seg { display: inline-flex; gap: .25rem; align-items: center; flex-wrap: wrap; }
+
+    .kbd { font: inherit; font-size: .85em; padding: .05em .35em; border: 1px solid rgba(0,0,0,.25);
+           border-radius: .25rem; background: color-mix(in srgb, var(--surface-bg) 92%, var(--surface-fg) 8%); }
+
+    /* Focus mode hides flanks without affecting print rules */
+    body.focus-mode .flank, body.focus-mode .site-footer { display: none !important; }
+
+    /* Live value readouts */
+    output { min-width: 3ch; display: inline-block; text-align: right; }
+
+    /* Reader column is your normal <main>. Included here for the demo */
+    main { max-width: var(--reader-max-width); margin-inline: auto; padding: var(--reader-block-pad) var(--reader-inline-pad); }
+    article { font-family: var(--reader-font-family); text-align: var(--reader-text-align);
+              word-spacing: var(--reader-word-spacing); letter-spacing: var(--reader-letter-spacing);
+              line-height: var(--reader-line-height); }
+  </style>
+</head>
+<body class="theme-light">
+  <a class="visually-hidden" href="#content">Skip to content</a>
+
+  <!-- Toolbar -->
+  <div id="toolbar" role="region" aria-label="Reader controls">
+    <form id="reader-form" autocomplete="off">
+      <!-- Theme, magnification, image mode, focus -->
+      <div class="row" aria-label="Appearance" role="group">
+        <label for="theme">Theme</label>
+        <select id="theme" name="theme">
+          <option value="theme-light">Light</option>
+          <option value="theme-dark">Dark</option>
+          <option value="theme-sepia">Sepia</option>
+          <option value="theme-gray">Gray</option>
+          <option value="theme-high-contrast">High contrast</option>
+        </select>
+
+        <label for="mag">Magnification</label>
+        <select id="mag" name="mag">
+          <option value="">Default</option>
+          <option value="lg">Large</option>
+          <option value="xl">Extra large</option>
+        </select>
+
+        <label for="imgmode">Images</label>
+        <select id="imgmode" name="imgmode">
+          <option value="normal">Normal</option>
+          <option value="compact">Compact</option>
+          <option value="hidden">Hidden</option>
+        </select>
+
+        <button type="button" id="focus" aria-pressed="false" title="Hide sidebars and footer">Focus mode</button>
+      </div>
+
+      <!-- Typography family and size -->
+      <div class="row" aria-label="Typography" role="group">
+        <label for="family">Font</label>
+        <select id="family" name="family" title="Reader font family">
+          <option value='ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'>Serif</option>
+          <option value='ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif'>Sans</option>
+          <option value='ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'>Monospace</option>
+          <option value='"Atkinson Hyperlegible", "OpenDyslexic", "Noto Sans", system-ui, sans-serif'>Dyslexia-friendly</option>
+        </select>
+
+        <div class="seg" role="group" aria-label="Font size">
+          <button type="button" id="size-dec" title="Decrease font size">A−</button>
+          <button type="button" id="size-inc" title="Increase font size">A+</button>
+          <span class="kbd" aria-hidden="true">+</span><span class="kbd">−</span> keys
+          <span>Current: <output id="size-out">1.00</output> rem</span>
+        </div>
+
+        <label for="align">Align</label>
+        <select id="align" name="align">
+          <option value="left">Left</option>
+          <option value="start">Start</option>
+          <option value="justify">Justify</option>
+          <option value="center">Center</option>
+        </select>
+      </div>
+
+      <!-- Measure, line height, spacing -->
+      <div class="row" aria-label="Measure and spacing" role="group">
+        <label for="measure">Width</label>
+        <input id="measure" name="measure" type="range" min="40" max="80" step="1" value="45" aria-describedby="measure-hint">
+        <span><output id="measure-out">45</output> ch</span>
+        <small id="measure-hint" class="help-text">Target readable measure 45 to 70 ch</small>
+
+        <label for="leading">Line height</label>
+        <input id="leading" name="leading" type="range" min="1.3" max="2.0" step="0.05" value="1.6">
+        <span><output id="leading-out">1.60</output></span>
+
+        <label for="lspace">Letter spacing</label>
+        <input id="lspace" name="lspace" type="range" min="0" max="0.04" step="0.005" value="0">
+        <span><output id="lspace-out">0.000</output> em</span>
+
+        <label for="wspace">Word spacing</label>
+        <input id="wspace" name="wspace" type="range" min="0" max="0.08" step="0.005" value="0">
+        <span><output id="wspace-out">0.000</output> em</span>
+      </div>
+
+      <!-- Storage and reset -->
+      <div class="row" role="group" aria-label="Storage">
+        <button type="button" id="save-session" title="Save in this tab only">Save session</button>
+        <button type="button" id="save-persist" title="Save as default on this device">Save as default</button>
+        <button type="button" id="export-settings">Export JSON</button>
+        <input id="import-file" type="file" accept="application/json" hidden>
+        <button type="button" id="import-settings">Import JSON</button>
+        <button type="button" id="reset">Reset</button>
+      </div>
+
+      <div class="row" aria-live="polite" id="status" class="meta"></div>
+    </form>
+  </div>
+
+  <!-- Layout skeleton for demo -->
+  <div class="layout">
+    <aside class="flank flank-left" aria-label="On this page">
+      <h2 class="aside-title">Contents</h2>
+      <ol>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#demo">Demo text</a></li>
+      </ol>
+    </aside>
+
+    <main id="content" class="article">
+      <article>
+        <header class="article-header">
+          <h1 id="intro">Reader mode driven by CSS tokens</h1>
+          <p class="meta">All controls write to variables and attributes you already use.</p>
+        </header>
+        <section id="demo" class="prose">
+          <p>Adjust controls above. The UI updates <code>--reader-*</code> variables and selected data attributes. No inline font sizing on paragraphs. Print rules remain clean.</p>
+          <p>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+            <ruby>可<rp>(</rp><rt>kě</rt><rp>)</rp></ruby>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+            <ruby>非<rp>(</rp><rt>fēi</rt><rp>)</rp></ruby>
+            <ruby>常<rp>(</rp><rt>cháng</rt><rp>)</rp></ruby>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+          </p>
+          <figure class="lead-figure">
+            <img src="https://via.placeholder.com/800x450" alt="Scaled figure" loading="lazy">
+            <figcaption>Figure respects image mode and width caps.</figcaption>
+          </figure>
+        </section>
+      </article>
+    </main>
+
+    <aside class="flank flank-right" aria-label="Facts">
+      <h2 class="aside-title">Facts</h2>
+      <table class="facts"><tbody>
+        <tr><th scope="row">Words</th><td>420</td></tr>
+        <tr><th scope="row">Updated</th><td><time>2025-08-24</time></td></tr>
+      </tbody></table>
+    </aside>
+  </div>
+
+  <footer class="site-footer">
+    <small>Demo footer. Hidden in focus mode. Print rules unaffected.</small>
+  </footer>
+
+  <script>
+  (() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const status = document.getElementById('status');
+
+    // Keys stored as a single object
+    const KEY = 'reader:settings';
+    const defaults = {
+      theme: 'theme-light',
+      mag: '',
+      imgmode: 'normal',
+      focus: false,
+      family: getComputedStyle(document.documentElement).getPropertyValue('--reader-font-family').trim()
+               || 'ui-serif, Georgia, Cambria, "Times New Roman", Times, serif',
+      size: parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--reader-font-size')) || 1.0,
+      align: 'left',
+      measure: 45,          // ch
+      leading: 1.6,         // line-height
+      lspace: 0.0,          // em
+      wspace: 0.0           // em
+    };
+
+    // State
+    let state = { ...defaults };
+
+    // Utility
+    const $ = (id) => document.getElementById(id);
+    const setVar = (name, value) => document.documentElement.style.setProperty(name, value);
+    const fmt = (n, p=2) => Number(n).toFixed(p);
+
+    function applyTheme(v){ body.classList.remove('theme-light','theme-dark','theme-sepia','theme-gray','theme-high-contrast'); body.classList.add(v); }
+    function applyMag(v){ if(v) html.setAttribute('data-mag', v); else html.removeAttribute('data-mag'); }
+    function applyImgMode(v){ html.setAttribute('data-img-mode', v); }
+    function applyFocus(on){
+      body.classList.toggle('focus-mode', !!on);
+      $('focus').setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    function applyFamily(v){ setVar('--reader-font-family', v); }
+    function applySize(rem){ setVar('--reader-font-size', rem + 'rem'); $('size-out').value = fmt(rem,2); }
+    function applyAlign(v){ setVar('--reader-text-align', v); }
+    function applyMeasure(ch){ setVar('--reader-max-width', ch + 'ch'); $('measure-out').value = ch; }
+    function applyLeading(n){ setVar('--reader-line-height', n); $('leading-out').value = fmt(n,2); }
+    function applyLSpace(n){ setVar('--reader-letter-spacing', n + 'em'); $('lspace-out').value = fmt(n,3); }
+    function applyWSpace(n){ setVar('--reader-word-spacing', n + 'em'); $('wspace-out').value = fmt(n,3); }
+
+    function render(){
+      applyTheme(state.theme);
+      applyMag(state.mag);
+      applyImgMode(state.imgmode);
+      applyFocus(state.focus);
+      applyFamily(state.family);
+      applySize(state.size);
+      applyAlign(state.align);
+      applyMeasure(state.measure);
+      applyLeading(state.leading);
+      applyLSpace(state.lspace);
+      applyWSpace(state.wspace);
+
+      // sync controls
+      $('theme').value = state.theme;
+      $('mag').value = state.mag;
+      $('imgmode').value = state.imgmode;
+      $('family').value = state.family;
+      $('align').value = state.align;
+      $('measure').value = String(state.measure);
+      $('leading').value = String(state.leading);
+      $('lspace').value = String(state.lspace);
+      $('wspace').value = String(state.wspace);
+    }
+
+    // Storage
+    function saveSession(){
+      sessionStorage.setItem(KEY, JSON.stringify(state));
+      say('Settings saved for this tab.');
+    }
+    function savePersist(){
+      localStorage.setItem(KEY, JSON.stringify(state));
+      say('Settings saved as device default.');
+    }
+    function load(){
+      const raw = sessionStorage.getItem(KEY) || localStorage.getItem(KEY);
+      if(raw){
+        try{ state = { ...state, ...JSON.parse(raw) }; }
+        catch{ /* ignore parse error */ }
+      }
+      render();
+    }
+    function reset(){
+      state = { ...defaults };
+      sessionStorage.removeItem(KEY);
+      // keep local defaults intact
+      render();
+      say('Settings reset to defaults.');
+    }
+    function say(msg){
+      status.textContent = msg;
+      window.clearTimeout(say._t);
+      say._t = setTimeout(() => status.textContent = '', 2000);
+    }
+
+    // Bind UI
+    $('theme').addEventListener('change', e => { state.theme = e.target.value; render(); });
+    $('mag').addEventListener('change', e => { state.mag = e.target.value; render(); });
+    $('imgmode').addEventListener('change', e => { state.imgmode = e.target.value; render(); });
+
+    $('focus').addEventListener('click', () => { state.focus = !state.focus; render(); });
+
+    $('family').addEventListener('change', e => { state.family = e.target.value; render(); });
+
+    $('size-inc').addEventListener('click', () => { state.size = Math.min(1.75, +(state.size + 0.0625).toFixed(4)); render(); });
+    $('size-dec').addEventListener('click', () => { state.size = Math.max(0.75, +(state.size - 0.0625).toFixed(4)); render(); });
+
+    $('align').addEventListener('change', e => { state.align = e.target.value; render(); });
+
+    $('measure').addEventListener('input', e => { state.measure = parseInt(e.target.value,10); applyMeasure(state.measure); });
+    $('leading').addEventListener('input', e => { state.leading = parseFloat(e.target.value); applyLeading(state.leading); });
+    $('lspace').addEventListener('input', e => { state.lspace = parseFloat(e.target.value); applyLSpace(state.lspace); });
+    $('wspace').addEventListener('input', e => { state.wspace = parseFloat(e.target.value); applyWSpace(state.wspace); });
+
+    $('save-session').addEventListener('click', saveSession);
+    $('save-persist').addEventListener('click', savePersist);
+    $('reset').addEventListener('click', reset);
+
+    // Import and export
+    $('export-settings').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(state, null, 2)], {type: 'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'reader-settings.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+    $('import-settings').addEventListener('click', () => $('import-file').click());
+    $('import-file').addEventListener('change', async e => {
+      const file = e.target.files[0]; if(!file) return;
+      try{
+        const text = await file.text();
+        const data = JSON.parse(text);
+        state = { ...state, ...data };
+        render(); say('Settings imported.');
+      }catch{ say('Import failed. Not valid JSON.'); }
+      e.target.value = '';
+    });
+
+    // Keyboard shortcuts: + and - for size, [ and ] for width, F for focus
+    document.addEventListener('keydown', (ev) => {
+      if (['INPUT','SELECT','TEXTAREA'].includes(ev.target.tagName)) return;
+      if (ev.key === '+'){ ev.preventDefault(); $('size-inc').click(); }
+      if (ev.key === '-' || ev.key === '_'){ ev.preventDefault(); $('size-dec').click(); }
+      if (ev.key === '['){ ev.preventDefault(); state.measure = Math.max(40, state.measure - 1); render(); }
+      if (ev.key === ']'){ ev.preventDefault(); state.measure = Math.min(80, state.measure + 1); render(); }
+      if (ev.key.toLowerCase() === 'f'){ ev.preventDefault(); $('focus').click(); }
+    });
+
+    // Respect user motion preference when animating future features
+    matchMedia('(prefers-reduced-motion: reduce)').addEventListener?.('change', () => {
+      // hook for any animated transitions you might add later
+    });
+
+    load();
+  })();
+  </script>
+</body>
+</html>
