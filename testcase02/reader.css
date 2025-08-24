@@ -224,6 +224,15 @@ align-items: start;
 .byline{ font-size: .9em; color: rgba(0,0,0,.7); }
 .lead-figure{ margin: var(--figure-margin) 0; }
 
+article{
+  font-family: var(--reader-font-family);
+  text-align: var(--reader-text-align);
+  word-spacing: var(--reader-word-spacing);
+  letter-spacing: var(--reader-letter-spacing);
+  line-height: var(--reader-line-height);
+  font-size: var(--reader-font-size);  /* NEW: makes the size slider work */
+}
+
 article, .prose{
   font-family: var(--reader-font-family);
   text-align: var(--reader-text-align);
