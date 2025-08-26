@@ -1,0 +1,778 @@
+
+/* Header styling STACKBLOCK00 */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap; /* to prevent odd spacing on smaller screens */
+    padding: 10px;
+    background-color: #0D0D0D;
+    color: #fff;
+}
+
+.left-section, .center-section, .right-section {
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Image styling within center section */
+.center-section .images {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Space between images */
+    margin-bottom: 10px; /* Margin below images */
+}
+
+.center-section .images img, .center-section > img {
+    width: 120px;
+    height: auto;
+}
+
+.accessibility-text {
+    font-size: 1rem; /* Match or slightly larger than body text */
+    font-weight: bold; /* Emphasize the text */
+    color: #FFD700; /* High contrast for visibility */
+    margin-left: 10px; /* Space between the image and text */
+    text-align: center; /* Align with surrounding content */
+}
+
+.accessibility-link {
+    font-size: 1rem; /* Match or slightly larger than body text */
+    font-weight: bold; /* Emphasize the text */
+    color: #FFD700; /* High contrast for visibility */
+    margin-left: 10px; /* Space between the image and the text */
+    text-decoration: none; /* Clean appearance */
+    transition: color 0.3s ease; /* Smooth hover effect */
+}
+
+.accessibility-link:hover,
+.accessibility-link:focus {
+    color: #FFAA00; /* Slightly darker shade for hover/focus state */
+    text-decoration: underline; /* Clear visual feedback for hover */
+}
+
+/* Navigation styling */
+nav {
+    background-color: #0077B6; /* Bright blue background */
+    padding: 0.625em 1.25em; /* Padding around the nav content */
+}
+
+/* Menu styling */
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #333; /* Dark background for the menu */
+    text-align: center;
+    display: none; /* Hidden by default, shown when hamburger is clicked */
+}
+
+.menu li a {
+    display: inline-block; /* Inline-block for better spacing handling */
+    padding: 0.625em 1.25em; /* Padding for better spacing around text */
+    color: white; /* Text color for readability */
+    text-decoration: none; /* No underline */
+    transition: background-color 0.5s ease, color 0.5s ease, border 0.5s ease; /* Smooth transition for hover effects */
+    border-radius: 50%; /* Smooth rounded corners for circular effect */
+    border: 2px solid transparent; /* Initial border color transparent */
+}
+
+/* Hover and focus states for links */
+.menu li a:hover, .menu li a:focus {
+    background-color: #005f8a; /* Smooth background color change */
+    text-decoration: none; /* No underline for a smoother look */
+    color: #FFD700; /* Bright color for hover state, ADA compliant */
+    border: 2px solid #FFD700; /* Smooth border color change */
+    outline: none; /* Remove outline for better aesthetics */
+}
+
+/* Hamburger icon styling */
+.hamburger {
+    display: block;
+    font-size: 1.875em; /* Converted from 30px for better scalability */
+    cursor: pointer;
+    text-align: center;
+    padding: 0.625em; /* Consistent em unit padding */
+    background: #333; /* Matching menu background */
+    color: white; /* Icon color */
+}
+
+/* Display menu when hamburger is checked */
+input[type="checkbox"]:checked + .hamburger + .menu {
+    display: block;
+}
+
+
+/* Global Styles */
+body {
+font-family: monospace, sans-serif;
+    color: #333;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4; /* Light background for readability */
+}
+
+/* Section Headings */
+main h2 {
+    font-size: 28px;
+    color: #4CAF50; /* Distinct green for section headings */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center; /* Center-align section headings for consistency */
+}
+
+/* Paragraph Text */
+main p {
+    text-align: left; /* To adjust readability */
+    line-height: 1.2;
+}
+
+/* Lists */
+main ul {
+    list-style-type: none; /* Remove bullets for a clean appearance */
+    padding: 0;
+    margin: 20px auto;
+    max-width: 800px; /* Limit width for better readability */
+}
+
+main ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    position: relative;
+}
+
+main ul li::before {
+    content: "•"; /* Add a bullet alternative */
+    color: #4CAF50;
+    font-size: 24px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* Links */
+main a {
+    color: #0056b3; /* Accessible blue for links */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+main a:hover {
+    text-decoration: underline;
+    color: #003d80; /* Darker blue on hover */
+}
+
+/* Blockquotes */
+blockquote {
+    font-style: italic;
+    background: #f9f9f9;
+    border-left: 5px solid #4CAF50;
+    margin: 20px 20px;
+    padding: 10px 20px;
+    color: #666;
+}
+
+cite {
+    display: block;
+    text-align: right;
+    color: #4CAF50;
+    font-style: normal;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.button-style,
+.message button,
+.message a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 10px 5px;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.button-style:hover,
+.message button:hover,
+.message a.button:hover {
+    background-color: #45a049;
+}
+
+.button-style:focus,
+.message button:focus,
+.message a:focus {
+    outline: 2px solid #FFD700; /* High-contrast focus state */
+}
+
+/* Message Section */
+.message {
+    text-align: center; /* Center-align all text */
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.message h2,
+.message h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #4CAF50;
+}
+
+.message p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr); /* Default to 9 columns for larger screens */
+  grid-template-rows: auto; /* Rows size to content */
+  gap: 10px;
+  padding: 20px;
+}
+
+.grid-item, .back-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  font-size: 16px;
+  color: #333; /* High contrast text */
+  text-decoration: none; /* Remove underline from links */
+}
+
+.grid-item:hover, .grid-item:focus, .back-button:hover, .back-button:focus {
+  background-color: #e8e8e8; /* Slightly darker background on hover/focus */
+  outline: 3px solid blue; /* High contrast outline for focus */
+}
+
+/* Style for the button */
+.back-button {
+  display: inline-block;
+  padding: 10px 20px; /* Add some padding for the button */
+  background-color: #0077B6; /* Button background color */
+  color: #fff; /* Text color */
+  font-size: 1rem; /* Adjust font size */
+  font-weight: bold; /* Make the text bold */
+  border: none; /* Remove default button border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor to indicate it's clickable */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  text-align: center; /* Center-align text */
+}
+
+/* Remove default link styling inside button */
+.back-button a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from the button */
+  display: inline-block; /* Makes the link behave like a button child */
+  width: 100%; /* Ensure it spans the button's full width */
+}
+
+/* Hover effect for the button */
+.button-container {
+  display: flex; /* Enables flexbox */
+  justify-content: center; /* Centers the button horizontally */
+  align-items: center; /* Centers the button vertically */
+}
+
+.back-button:hover {
+  background-color: #005994; /* Darker shade for hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Subtle shadow on hover */
+}
+
+/* Focus effect for the button */
+.back-button:focus {
+  outline: 2px solid #FFD700; /* High-contrast focus outline */
+}
+
+/* Active (clicked) state */
+.back-button:active {
+  background-color: #003d80; /* Even darker shade when active */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3); /* Inset shadow for pressed effect */
+}
+
+.info-section {
+  margin-top: 30px; /* Space between the button and the text */
+  padding: 20px;
+  background-color: #ffffff; /* Contrast with the button */
+  border: 1px solid #ccc; /* Subtle border */
+  font-size: 16px; /* Readable font size */
+  line-height: 1.6; /* Adequate line spacing for readability */
+}
+
+.info-section h2 {
+  font-size: 24px; /* Larger font size for headings */
+  color: #333; /* High contrast for readability */
+  margin-bottom: 10px; /* Space between heading and text */
+}
+
+.info-section p {
+  margin-bottom: 10px; /* Space between paragraphs */
+}
+
+/* Key Features Section */
+[aria-label="List of key features"] li {
+    background: #eaf4e9; /* Soft green background for feature items */
+    padding: 10px;
+    border: 1px solid #4CAF50;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+}
+
+[aria-label="List of key features"] li:hover {
+    background: #d7ecd5; /* Slightly darker green on hover */
+}
+.site-footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.site-footer a {
+    color: #0077B6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.site-footer a:hover {
+    color: #005994;
+}
+
+.site-footer p {
+    margin: 0.625rem 0; 
+}
+
+/* === Dark Light Mode === */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000000; /* Dark background */
+    color: #ffffff; /* Light text */
+  }
+
+      .grid-container {
+    gap: 10px; /* Maintain spacing */
+    padding: 20px;
+    background-color: #121212; /* Dark background for grid container */
+  }
+
+  .grid-item, .back-button {
+    background-color: #1e1e1e; /* Darker gray for grid items */
+    border: 1px solid #444; /* Subtle border for separation */
+    color: #e0e0e0; /* Light text for high contrast */
+  }
+
+  .grid-item:hover,
+  .grid-item:focus,
+  .back-button:hover,
+  .back-button:focus {
+    background-color: #292929; /* Slightly lighter background for hover */
+    outline: 3px solid #ffd700; /* High-contrast focus outline */
+  }
+
+  /* Back Button */
+  .back-button {
+    background-color: #333; /* Dark button background */
+    color: #FFD700; /* Bright text color for contrast */
+    border: 1px solid #FFD700; /* Optional border for better visibility */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+  }
+
+  /* Link inside the button in dark mode */
+  .back-button a {
+    color: inherit; /* Inherit the bright color from the button */
+    text-decoration: none; /* Maintain clean appearance */
+  }
+
+  /* Hover effect in dark mode */
+  .back-button:hover {
+    background-color: #555; /* Lighter dark background for hover */
+    box-shadow: 0 4px 6px rgba(255, 215, 0, 0.3); /* Subtle yellow glow */
+  }
+
+  /* Focus effect in dark mode */
+  .back-button:focus {
+    outline: 2px solid #FFD700; /* High-contrast focus outline */
+  }
+
+  /* Active (clicked) state in dark mode */
+  .back-button:active {
+    background-color: #222; /* Even darker shade when active */
+    box-shadow: inset 0 2px 4px rgba(255, 215, 0, 0.3); /* Inset shadow for pressed effect */
+  }
+
+  /* Info Section */
+  .info-section {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #1e1e1e; /* Dark background for info section */
+    border: 1px solid #444; /* Subtle border */
+    color: #e0e0e0; /* Light text */
+  }
+
+  .info-section h2 {
+    font-size: 24px;
+    color: #ffd700; /* Bright yellow for headings */
+    margin-bottom: 10px;
+  }
+
+  .info-section p {
+    margin-bottom: 10px;
+    color: #e0e0e0; /* Maintain light text for readability */
+  }
+    
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #ffffff; /* Light background */
+    color: #000000; /* Dark text */
+  }
+
+  button, a {
+    border-color: #000000;
+  }
+
+  button:focus, a:focus {
+    outline: 2px dashed #000000;
+  }
+}
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* === Printing === */
+@media print {
+  body {
+    font-size: 12pt;
+    color: black;
+    background: none;
+  }
+}
+
+
+/* Very Small Screens and Minimal Displays */
+@media (max-width: 2em) { /* 32px */
+  body {
+    font-size: 0.625rem; /* 10px */
+    max-width: 2rem; /* 32px */
+    padding: 0 0.5rem; /* 8px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: 1fr; /* Single column for very small displays */
+  }
+  
+}
+
+@media (min-width: 2.063em) and (max-width: 5.25em) { /* 33px to 84px */
+  body {
+    font-size: 0.75rem; /* 12px */
+    max-width: 4rem; /* 84px */
+    padding: 0 0.5rem; /* 8px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: 1fr; /* Still a single column */
+  }
+  
+}
+
+/* Legacy Screens */
+@media (min-width: 5.313em) and (max-width: 15em) { /* 85px to 240px */
+  body {
+    font-size: 0.8125rem; /* 13px */
+    max-width: 14rem; /* 240px */
+    padding: 0 0.75rem; /* 12px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for slightly larger displays */
+  }
+  
+}
+
+/* Very Small Screens (241px to 320px) */
+@media (min-width: 15.063em) and (max-width: 20em) { /* 241px to 320px */
+  body {
+    font-size: 0.9375rem; /* 15px */
+    max-width: 16rem; /* 270px */
+    padding: 0 1rem; /* 16px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Two columns for better layout */
+  }
+  
+}
+
+/* Small Screens (321px to 375px) */
+@media (min-width: 20.063em) and (max-width: 23.438em) { /* 321px to 375px */
+  body {
+    font-size: 0.9375rem; /* 15px */
+    max-width: 18rem; /* 315px */
+    padding: 0 1rem; /* 16px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Three columns for small screens */
+  }
+  
+}
+
+/* Small-Medium Screens (376px to 480px) */
+@media (min-width: 23.5em) and (max-width: 30em) { /* 376px to 480px */
+  body {
+    font-size: 1.0625rem; /* 17px */
+    max-width: 24rem; /* 408px */
+    padding: 0 1rem; /* 16px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* Three columns */
+  }
+  
+}
+
+/* Medium Screens (481px to 600px) */
+@media (min-width: 30.063em) and (max-width: 37.5em) { /* 481px to 600px */
+  body {
+    font-size: 1.0625rem; /* 17px */
+    max-width: 30rem; /* 512px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: repeat(3, 1fr); /* Four columns */
+  }
+  
+}
+
+/* Medium-Large Screens (601px to 768px) */
+@media (min-width: 37.563em) and (max-width: 48em) { /* 601px to 768px */
+  body {
+    font-size: 1.0625rem; /* 17px */
+    max-width: 46rem; /* 768px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+
+    .grid-container {
+    grid-template-columns: repeat(4, 1fr); /* Four columns for better usage */
+  }
+    
+}
+
+/* Large Screens (769px to 1024px) */
+@media (min-width: 48.063em) and (max-width: 64em) { /* 769px to 1024px */
+  body {
+    font-size: 1.125rem; /* 18px */
+    max-width: 58rem; /* 960px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+  .content-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    gap: 2%;
+  }
+
+        .hamburger, #menu-toggle {
+        display: none; /* Hide hamburger icon and checkbox on larger screens */
+    }
+    .menu {
+        display: block;
+        background: none;
+    }
+    .menu li {
+        display: inline-block; /* Horizontal menu */
+    }
+    .menu li a {
+        padding: 15px;
+        border-radius: 50%; /* Consistent border-radius */
+        border: 2px solid transparent; /* Initial border color transparent */
+    }
+
+    .grid-container {
+    grid-template-columns: repeat(6, 1fr); /* Six columns */
+  }
+    
+}
+
+/* Extra Large Screens (1025px to 1280px) */
+@media (min-width: 64.063em) and (max-width: 80em) { /* 1025px to 1280px */
+  body {
+    font-size: 1.25rem; /* 20px */
+    max-width: 74rem; /* 1216px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+
+        .hamburger, #menu-toggle {
+        display: none; /* Hide hamburger icon and checkbox on larger screens */
+    }
+    .menu {
+        display: block;
+        background: none;
+    }
+    .menu li {
+        display: inline-block; /* Horizontal menu */
+    }
+    .menu li a {
+        padding: 15px;
+        border-radius: 50%; /* Consistent border-radius */
+        border: 2px solid transparent; /* Initial border color transparent */
+    }
+  
+  .grid-container {
+    grid-template-columns: repeat(6, 1fr); /* Six columns */
+  }
+  
+}
+
+/* Wide Screens (1281px to 1440px) */
+@media (min-width: 80.063em) and (max-width: 90em) { /* 1281px to 1440px */
+  body {
+    font-size: 1.375rem; /* 22px */
+    max-width: 82rem; /* 1344px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+
+        .hamburger, #menu-toggle {
+        display: none; /* Hide hamburger icon and checkbox on larger screens */
+    }
+    .menu {
+        display: block;
+        background: none;
+    }
+    .menu li {
+        display: inline-block; /* Horizontal menu */
+    }
+    .menu li a {
+        padding: 15px;
+        border-radius: 50%; /* Consistent border-radius */
+        border: 2px solid transparent; /* Initial border color transparent */
+    }
+
+    .grid-container {
+    grid-template-columns: repeat(8, 1fr); /* Eight columns */
+  }
+    
+}
+
+/* Ultra-Wide Screens (1441px to 1920px) */
+@media (min-width: 90.063em) and (max-width: 120em) { /* 1441px to 1920px */
+  body {
+    font-size: 1.5rem; /* 24px */
+    max-width: 106rem; /* 1728px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+
+    .hamburger, #menu-toggle {
+        display: none; /* Hide hamburger icon and checkbox on larger screens */
+    }
+    .menu {
+        display: block;
+        background: none;
+    }
+    .menu li {
+        display: inline-block; /* Horizontal menu */
+    }
+    .menu li a {
+        padding: 15px;
+        border-radius: 50%; /* Consistent border-radius */
+        border: 2px solid transparent; /* Initial border color transparent */
+    }
+
+    .grid-container {
+    grid-template-columns: repeat(8, 1fr); /* Eight columns */
+  }
+    
+}
+
+/* 4K Screens (1921px to 2560px) */
+@media (min-width: 120.063em) and (max-width: 160em) { /* 1921px to 2560px */
+  body {
+    font-size: 1.5rem; /* 24px */
+    max-width: 110rem; /* 1800px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+  .content-container {
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  }
+
+    .hamburger, #menu-toggle {
+        display: none; /* Hide hamburger icon and checkbox on larger screens */
+    }
+    .menu {
+        display: block;
+        background: none;
+    }
+    .menu li {
+        display: inline-block; /* Horizontal menu */
+    }
+    .menu li a {
+        padding: 15px;
+        border-radius: 50%; /* Consistent border-radius */
+        border: 2px solid transparent; /* Initial border color transparent */
+    }
+
+    .grid-container {
+    grid-template-columns: repeat(10, 1fr); /* Ten columns */
+  }
+    
+}
+
+/* 5K and Above Screens (2561px and above) */
+@media (min-width: 160.063em) { /* 2561px and above */
+  body {
+    font-size: 1.5rem; /* 24px */
+    max-width: 110rem; /* 1800px */
+    padding: 0 1.125rem; /* 18px side padding */
+  }
+  .content-container {
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  }
+
+    .hamburger, #menu-toggle {
+        display: none; /* Hide hamburger icon and checkbox on larger screens */
+    }
+    .menu {
+        display: block;
+        background: none;
+    }
+    .menu li {
+        display: inline-block; /* Horizontal menu */
+    }
+    .menu li a {
+        padding: 15px;
+        border-radius: 50%; /* Consistent border-radius */
+        border: 2px solid transparent; /* Initial border color transparent */
+    }
+
+    .grid-container {
+    grid-template-columns: repeat(12, 1fr); /* Twelve columns for larger displays */
+  }
+    
+}
