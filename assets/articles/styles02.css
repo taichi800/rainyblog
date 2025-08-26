@@ -1,0 +1,153 @@
+/* =========================
+   Base document variables
+   ========================= */
+:root {
+  /* Defaults */
+  --surface-bg: #ffffff;
+  --surface-fg: #111111;
+  --muted-fg:  #333333;
+
+  /* <pre> explicit fallbacks */
+  --pre-bg:     #f4f4f4;
+  --pre-border: #cccccc;
+}
+
+/* Dark scheme tokens */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-bg: #0f0f10;
+    --surface-fg: #e8e8e8;
+    --muted-fg:  #d0d0d0;
+
+    --pre-bg:     #1a1b1e;
+    --pre-border: #3a3d42;
+  }
+}
+
+/* Let UA choose appropriate form control and scrollbar palettes */
+html { color-scheme: light dark; }
+
+/* =========================
+   Body
+   ========================= */
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono",
+               "Courier New", monospace, system-ui, -apple-system, "Segoe UI",
+               Roboto, Ubuntu, Cantarell;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--surface-fg);
+  background: var(--surface-bg);
+}
+
+/* Slight size assist on very small screens without breakpoint bloat */
+@media (max-width: 30rem) {
+  body { font-size: 15px; }
+}
+
+/* =========================
+   Preformatted blocks
+   ========================= */
+pre {
+  /* Fallbacks first */
+  background: var(--pre-bg);
+  color: var(--muted-fg);
+  border: 1px solid var(--pre-border);
+
+  /* Box model and spacing */
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;
+  max-width: 100%;
+
+  /* Wrapping and overflow strategy */
+  white-space: pre-wrap;     /* keep author formatting but allow wrapping */
+  overflow-x: auto;          /* scroll if a line is still too long */
+  overflow-y: hidden;
+  overflow-wrap: anywhere;   /* break very long tokens like URLs */
+  word-break: normal;
+
+  /* Typography */
+  font: inherit;             /* match body font stack */
+  tab-size: 4;
+  -moz-tab-size: 4;
+}
+
+/* Prefer computed blends when supported, without overriding fallbacks */
+@supports (background: color-mix(in srgb, #000 50%, #fff 50%)) {
+  pre {
+    background: color-mix(in srgb, var(--surface-bg) 92%, var(--surface-fg) 8%);
+    border-color: color-mix(in srgb, currentColor 18%, transparent);
+  }
+}
+
+/* Avoid double styling when <code> is nested inside <pre> */
+pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  white-space: inherit;
+}
+
+/* Keyboard focus visibility */
+pre:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* =========================
+   Reduced motion
+   ========================= */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* =========================
+   High contrast and forced colors
+   ========================= */
+@media (prefers-contrast: more) {
+  pre {
+    border-width: 2px;
+  }
+}
+
+/* Windows High Contrast mode */
+@media (forced-colors: active) {
+  body {
+    background: Canvas;
+    color: CanvasText;
+  }
+  pre {
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+}
+
+/* =========================
+   Print
+   ========================= */
+@media print {
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+    padding: 0;
+    margin: 0;
+  }
+  pre {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+    border: 1pt solid #000;
+    border-radius: 0;
+    padding: 0.5em;
+    margin: 0 0 0.75em 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+}
