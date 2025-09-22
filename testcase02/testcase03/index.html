@@ -96,7 +96,40 @@
         </div>
       </details>
     </div>
+  </div><div id="toolbar" role="region" aria-label="Reader controls">
+  <!-- Scrollable control strip -->
+  <div id="quick" role="group" aria-label="Quick controls">
+    <label for="theme" class="visually-hidden">Theme</label>
+    <select id="theme" name="theme" title="Theme">
+      <option value="theme-light">Light</option>
+      <option value="theme-dark">Dark</option>
+      <option value="theme-sepia">Sepia</option>
+      <option value="theme-gray">Gray</option>
+      <option value="theme-high-contrast">High contrast</option>
+    </select>
+
+    <label for="size">Size</label>
+    <input id="size" type="range" min="0.75" max="1.75" step="0.0625" value="1.00" aria-describedby="sizeOut">
+    <output id="sizeOut" class="readout">1.00rem</output>
+
+    <label for="measure">Width</label>
+    <input id="measure" type="range" min="40" max="80" step="1" value="45" aria-describedby="measureOut">
+    <output id="measureOut" class="readout">45ch</output>
   </div>
+
+  <!-- Always-visible actions dock -->
+  <div id="actions" role="group" aria-label="Reader actions">
+    <button type="button" id="focus" aria-pressed="false" title="Hide sidebars and footer">Focus</button>
+
+    <details class="tools">
+      <summary aria-controls="more-panel" aria-expanded="false">More</summary>
+      <!-- existing panel markup unchanged -->
+      <div id="more-panel" class="panel" role="dialog" aria-label="Advanced reader settings">
+        <!-- ... -->
+      </div>
+    </details>
+  </div>
+</div>
 
   <div class="layout">
     <aside class="flank flank-left" aria-label="On this page">
