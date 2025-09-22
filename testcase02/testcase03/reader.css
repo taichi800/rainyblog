@@ -1,0 +1,268 @@
+/* =========================================================
+   Tokens and invariants
+   ========================================================= */
+:root{
+  color-scheme: light dark;
+
+  --surface-bg: #ffffff;
+  --surface-fg: #222222;
+  --canvas-bg: #f5f5f5;
+
+  --border-weak: #e5e5e5;
+  --field-border: #c9c9c9;
+  --field-bg: #fafafa;
+  --field-fg: #222;
+
+  --link: #0b57d0;
+  --link-visited: #5a34ad;
+
+  --focus-outline: 2px solid #FFD700;
+  --focus-offset: 2px;
+  --tap-min: 44px;
+
+  --ui-font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --reader-font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+
+  --reader-font-size: 1rem;
+  --reader-line-height: 1.6;
+  --reader-text-align: left;
+  --reader-letter-spacing: 0em;
+  --reader-word-spacing: 0em;
+  --reader-max-width: 45ch;
+
+  --reader-block-pad: 1.25rem;
+  --reader-inline-pad: 1rem;
+
+  --aside-w: clamp(12rem, 22vw, 18rem);
+  --gap: 1rem;
+
+  --header-h: 0px; /* set if you have a fixed site header above toolbar */
+}
+
+/* Themes */
+body.theme-light{
+  --surface-bg: #ffffff;
+  --surface-fg: #222222;
+  --canvas-bg: #f5f5f5;
+  --border-weak: #e5e5e5;
+  --field-border: #c9c9c9;
+  --field-bg: #fafafa;
+  --field-fg: #222;
+}
+
+body.theme-dark{
+  color-scheme: dark;
+  --surface-bg: #141414;
+  --surface-fg: #eaeaea;
+  --canvas-bg: #0c0c0c;
+  --border-weak: #2a2a2a;
+  --field-border: #3a3a3a;
+  --field-bg: #1a1a1a;
+  --field-fg: #eaeaea;
+  --link: #82aaff;
+  --link-visited: #c792ea;
+}
+
+body.theme-sepia{
+  --surface-bg: #fbf2e1;
+  --surface-fg: #2b2115;
+  --canvas-bg: #f3e8d7;
+  --border-weak: #e6d7bf;
+  --field-border: #d7c6ab;
+  --field-bg: #f7eddc;
+  --field-fg: #2b2115;
+  --link: #7a4b00;
+  --link-visited: #5d3579;
+}
+
+body.theme-gray{
+  --surface-bg: #f2f2f2;
+  --surface-fg: #1f1f1f;
+  --canvas-bg: #e9e9e9;
+  --border-weak: #d7d7d7;
+  --field-border: #c7c7c7;
+  --field-bg: #f7f7f7;
+  --field-fg: #1f1f1f;
+}
+
+body.theme-high-contrast{
+  color-scheme: light;
+  --surface-bg: #ffffff;
+  --surface-fg: #000000;
+  --canvas-bg: #ffffff;
+  --border-weak: #000000;
+  --field-border: #000000;
+  --field-bg: #ffffff;
+  --field-fg: #000000;
+  --link: #0000EE;
+  --link-visited: #551A8B;
+}
+
+/* Base */
+html,body{ height: 100%; }
+body{
+  margin: 0;
+  background: var(--canvas-bg);
+  color: var(--surface-fg);
+  font: 400 var(--reader-font-size)/var(--reader-line-height) var(--reader-font-family);
+  text-align: var(--reader-text-align);
+  letter-spacing: var(--reader-letter-spacing);
+  word-spacing: var(--reader-word-spacing);
+}
+a{ color: var(--link); }
+a:visited{ color: var(--link-visited); }
+img{ max-inline-size: 100%; block-size: auto; }
+
+/* Visually hidden but focusable when tabbed to */
+.visually-hidden{
+  position: absolute !important;
+  inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip: rect(0 0 0 0); overflow: hidden;
+}
+
+/* =========================================================
+   Toolbar
+   ========================================================= */
+#toolbar{
+  position: sticky; top: 0; z-index: 1000;
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  gap: .5rem; padding: .4rem .5rem;
+  background: var(--surface-bg); color: var(--surface-fg);
+  border-block-end: 1px solid var(--border-weak);
+  font-family: var(--ui-font);
+}
+#quick{ display: flex; align-items: center; gap: .5rem; flex-wrap: nowrap; min-height: 48px; }
+#quick select, #quick input[type="range"], #quick button{
+  font: inherit; padding: .3rem .45rem;
+  border: 1px solid var(--field-border);
+  border-radius: .375rem;
+  background: var(--field-bg); color: var(--field-fg);
+  min-height: 36px;
+}
+#size{ inline-size: clamp(110px, 16vw, 160px); }
+#measure{ inline-size: clamp(110px, 20vw, 200px); }
+.readout{ font-size: .9em; opacity: .85; min-width: 4ch; text-align: right; }
+
+details.tools{ position: relative; }
+details.tools > summary{
+  list-style: none; cursor: pointer; user-select: none;
+  padding: .3rem .6rem; border: 1px solid var(--field-border);
+  border-radius: .375rem; background: var(--field-bg);
+}
+details.tools > summary::-webkit-details-marker{ display: none; }
+details.tools[open] > summary{ outline: var(--focus-outline); outline-offset: var(--focus-offset); }
+
+.panel{
+  position: fixed;
+  left: 0; right: 0;
+  top: var(--header-h);
+  background: var(--surface-bg); color: var(--surface-fg);
+  border-block: 1px solid var(--border-weak);
+  padding: .75rem;
+  max-height: min(60vh, 36rem);
+  overflow: auto;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+.panel-grid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(12rem, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 64em){
+  .panel-grid{ grid-template-columns: repeat(2, minmax(12rem, 1fr)); }
+}
+@media (max-width: 40em){
+  .panel-grid{ grid-template-columns: 1fr; }
+}
+.grp{ border: 1px solid color-mix(in srgb, currentColor 18%, transparent); border-radius: .5rem; padding: .75rem; }
+.grp h3{ font-size: 1rem; margin: 0 0 .5rem 0; }
+.grp label{ display: block; font-size: .95em; margin: .25rem 0 .15rem; }
+.grp .row{ display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+
+/* =========================================================
+   Layout skeleton
+   ========================================================= */
+.layout{
+  display: grid;
+  grid-template-columns: var(--aside-w) minmax(0,1fr) var(--aside-w);
+  gap: var(--gap);
+  align-items: start;
+  padding-inline: var(--reader-inline-pad);
+  padding-block: var(--reader-block-pad);
+}
+
+.flank{
+  background: var(--surface-bg);
+  border: 1px solid var(--border-weak);
+  border-radius: .5rem;
+  padding: .75rem;
+}
+.aside-title{ margin-top: 0; font-family: var(--ui-font); font-size: 1rem; }
+
+.article{
+  background: var(--surface-bg);
+  border: 1px solid var(--border-weak);
+  border-radius: .75rem;
+  padding: min(2.5rem, 6vw);
+}
+.article-header h1{ margin-block: 0 .25em; line-height: 1.2; }
+.article .meta{ margin-block: 0 1rem; color: color-mix(in srgb, currentColor 60%, transparent); }
+
+/* Collapse sidebars on narrow viewports */
+@media (max-width: 80rem){
+  .layout{ grid-template-columns: minmax(0,1fr); }
+  .flank{ display: none; }
+}
+
+/* =========================================================
+   Prose
+   ========================================================= */
+.prose{
+  font-size: var(--reader-font-size);
+  line-height: var(--reader-line-height);
+  max-inline-size: var(--reader-max-width);
+  margin-inline: auto;
+  text-align: var(--reader-text-align);
+  letter-spacing: var(--reader-letter-spacing);
+  word-spacing: var(--reader-word-spacing);
+}
+.prose p{ margin: 0 0 1em 0; }
+.prose figure{ margin: 1.25rem auto; }
+.prose figure img{ display: block; margin-inline: auto; }
+
+/* Magnification controlled on <html data-mag> */
+html[data-mag="lg"] .prose{ font-size: calc(var(--reader-font-size) * 1.125); }
+html[data-mag="xl"] .prose{ font-size: calc(var(--reader-font-size) * 1.25); }
+
+/* Image modes via <html data-img-mode> */
+html[data-img-mode="compact"] .prose figure img{
+  max-inline-size: clamp(220px, 60%, 480px);
+}
+html[data-img-mode="hidden"] .prose figure{ display: none; }
+
+/* Focus mode hides flanks and footer without touching print */
+body.focus-mode .flank,
+body.focus-mode .site-footer{
+  display: none !important;
+}
+
+/* Footer */
+.site-footer{
+  margin-block: 1rem 2rem;
+  padding-inline: var(--reader-inline-pad);
+  color: color-mix(in srgb, currentColor 65%, transparent);
+}
+
+/* Accessibility and motion */
+*:focus-visible{ outline: var(--focus-outline); outline-offset: var(--focus-offset); }
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Print keeps content, ignores focus mode UI */
+@media print{
+  #toolbar, .flank, .site-footer{ display: none !important; }
+  .article{ border: 0; padding: 0; }
+  body{ background: #ffffff; color: #000; }
+}
