@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-mag="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Custom Reader Mode</title>
+  <link rel="stylesheet" href="reader.css">
+</head>
+<body class="theme-light">
+  <a class="visually-hidden" href="#content">Skip to content</a>
+
+  <div id="toolbar" role="region" aria-label="Reader controls">
+    <div id="quick" role="group" aria-label="Quick controls">
+      <label for="theme" class="visually-hidden">Theme</label>
+      <select id="theme" name="theme" title="Theme">
+        <option value="theme-light">Light</option>
+        <option value="theme-dark">Dark</option>
+        <option value="theme-sepia">Sepia</option>
+        <option value="theme-gray">Gray</option>
+        <option value="theme-high-contrast">High contrast</option>
+      </select>
+
+      <label for="size">Size</label>
+      <input id="size" type="range" min="0.75" max="1.75" step="0.0625" value="1.00" aria-describedby="sizeOut">
+      <output id="sizeOut" class="readout">1.00rem</output>
+
+      <label for="measure">Width</label>
+      <input id="measure" type="range" min="40" max="80" step="1" value="45" aria-describedby="measureOut">
+      <output id="measureOut" class="readout">45ch</output>
+
+      <button type="button" id="focus" aria-pressed="false" title="Hide sidebars and footer">Focus</button>
+
+      <details class="tools">
+        <summary aria-controls="more-panel" aria-expanded="false">More</summary>
+        <div id="more-panel" class="panel" role="dialog" aria-label="Advanced reader settings">
+          <div class="panel-grid">
+            <section class="grp" aria-labelledby="grp-appearance">
+              <h3 id="grp-appearance">Appearance</h3>
+              <label for="mag">Magnification</label>
+              <select id="mag" name="mag">
+                <option value="">Default</option>
+                <option value="lg">Large</option>
+                <option value="xl">Extra large</option>
+              </select>
+
+              <label for="imgmode">Images</label>
+              <select id="imgmode" name="imgmode">
+                <option value="normal">Normal</option>
+                <option value="compact">Compact</option>
+                <option value="hidden">Hidden</option>
+              </select>
+            </section>
+
+            <section class="grp" aria-labelledby="grp-typography">
+              <h3 id="grp-typography">Typography</h3>
+              <label for="family">Font family</label>
+              <select id="family" name="family">
+                <option value='ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'>Serif</option>
+                <option value='ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif'>Sans</option>
+                <option value='ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace'>Monospace</option>
+                <option value='"Atkinson Hyperlegible","OpenDyslexic","Noto Sans",system-ui,sans-serif'>Dyslexia friendly</option>
+              </select>
+
+              <label for="align">Align</label>
+              <select id="align" name="align">
+                <option value="left">Left</option>
+                <option value="start">Start</option>
+                <option value="right">Right</option>
+                <option value="justify">Justify</option>
+                <option value="center">Center</option>
+              </select>
+
+              <label for="leading">Line height</label>
+              <input id="leading" type="range" min="1.30" max="2.00" step="0.05" value="1.60" aria-describedby="leadingOut">
+              <output id="leadingOut" class="readout">1.60</output>
+            </section>
+
+            <section class="grp" aria-labelledby="grp-spacing">
+              <h3 id="grp-spacing">Spacing</h3>
+              <label for="lspace">Letter spacing</label>
+              <input id="lspace" type="range" min="0" max="0.04" step="0.005" value="0">
+              <label for="wspace">Word spacing</label>
+              <input id="wspace" type="range" min="0" max="0.08" step="0.005" value="0">
+            </section>
+
+            <section class="grp" aria-labelledby="grp-storage">
+              <h3 id="grp-storage">Storage</h3>
+              <div class="row">
+                <button type="button" id="save-session" title="Save for this tab">Save session</button>
+                <button type="button" id="save-persist" title="Save as device default">Save default</button>
+                <button type="button" id="reset" title="Reset to defaults">Reset</button>
+              </div>
+              <div id="status" aria-live="polite"></div>
+            </section>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="flank flank-left" aria-label="On this page">
+      <h2 class="aside-title">Contents</h2>
+      <ol>
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#demo">Demo</a></li>
+      </ol>
+    </aside>
+
+    <main id="content" class="article">
+      <article>
+        <header class="article-header">
+          <h1 id="intro">Token-driven reader</h1>
+          <p class="meta">Controls write to <code>--reader-*</code> variables and data attributes.</p>
+        </header>
+        <section id="demo" class="prose">
+          <p>Use the toolbar. The column width slider adjusts <code>--reader-max-width</code> in characters, not pixels.</p>
+          <p>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+            <ruby>可<rp>(</rp><rt>kě</rt><rp>)</rp></ruby>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+            <ruby>非<rp>(</rp><rt>fēi</rt><rp>)</rp></ruby>
+            <ruby>常<rp>(</rp><rt>cháng</rt><rp>)</rp></ruby>
+            <ruby>道<rp>(</rp><rt>dào</rt><rp>)</rp></ruby>
+          </p>
+          <figure class="lead-figure">
+            <img src="https://via.placeholder.com/800x450" alt="Scaled figure" loading="lazy">
+            <figcaption>Figure respects the selected image mode.</figcaption>
+          </figure>
+        </section>
+      </article>
+    </main>
+
+    <aside class="flank flank-right" aria-label="Facts">
+      <h2 class="aside-title">Facts</h2>
+      <table class="facts"><tbody>
+        <tr><th scope="row">Updated</th><td><time>2025-08-24</time></td></tr>
+      </tbody></table>
+    </aside>
+  </div>
+
+  <footer class="site-footer" role="contentinfo">
+    <small>Footer content. Hidden by Focus button. Print rules unaffected.</small>
+  </footer>
+
+  <script src="reader.js"></script>
+</body>
+</html>
