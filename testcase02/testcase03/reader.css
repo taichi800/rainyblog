@@ -39,7 +39,9 @@
   --header-h: 0px; /* set if you have a fixed site header above toolbar */
 }
 
-/* Themes */
+/* =========================================================
+   Themes
+   ========================================================= */
 body.theme-light{
   --surface-bg: #ffffff;
   --surface-fg: #222222;
@@ -98,7 +100,9 @@ body.theme-high-contrast{
   --link-visited: #551A8B;
 }
 
-/* Base */
+/* =========================================================
+   Base
+   ========================================================= */
 html,body{ height: 100%; }
 body{
   margin: 0;
@@ -113,7 +117,17 @@ a{ color: var(--link); }
 a:visited{ color: var(--link-visited); }
 img{ max-inline-size: 100%; block-size: auto; }
 
-/* Toolbar grid: scrollable strip + pinned actions */
+/* Visually hidden but focusable when tabbed to */
+.visually-hidden{
+  position: absolute !important;
+  inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip: rect(0 0 0 0); overflow: hidden;
+}
+
+/* =========================================================
+   Toolbar: scrollable strip + pinned actions
+   ========================================================= */
 #toolbar{
   position: sticky; top: 0; z-index: 1000;
   display: grid;
@@ -133,17 +147,16 @@ img{ max-inline-size: 100%; block-size: auto; }
   align-items: center;
   gap: .5rem;
   min-height: 48px;
-  overflow-x: auto;          /* allow horizontal scroll */
+  overflow-x: auto;
   overflow-y: hidden;
   scrollbar-gutter: stable both-edges;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x proximity;
-  padding-inline-end: .5rem; /* spacing before the fade mask */
+  padding-inline-end: .5rem;
 }
 
-/* Subtle fade to indicate more content offscreen */
+/* Subtle fade to indicate overflow; disabled on focus, hover, and high-contrast */
 #quick{
-  /* mask not applied in high-contrast due to potential visibility issues */
   --fade: linear-gradient(90deg,
             rgba(0,0,0,1) 0%,
             rgba(0,0,0,1) calc(100% - 2.25rem),
@@ -152,12 +165,13 @@ img{ max-inline-size: 100%; block-size: auto; }
   mask-image: var(--fade);
 }
 #quick:focus-within,
-#quick:hover{
+#quick:hover,
+body.theme-high-contrast #quick{
   -webkit-mask-image: none;
   mask-image: none;
 }
 
-/* Inputs in the toolbar */
+/* Inputs and outputs in the toolbar */
 #quick select,
 #quick input[type="range"],
 #quick button,
@@ -179,10 +193,10 @@ img{ max-inline-size: 100%; block-size: auto; }
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  min-width: max-content; /* do not shrink */
+  min-width: max-content;
 }
 
-/* Details 'More' button visuals retained */
+/* Details 'More' basic visuals */
 details.tools{ position: relative; }
 details.tools > summary{
   list-style: none; cursor: pointer; user-select: none;
@@ -192,8 +206,8 @@ details.tools > summary{
 details.tools > summary::-webkit-details-marker{ display: none; }
 details.tools[open] > summary{ outline: var(--focus-outline); outline-offset: var(--focus-offset); }
 
-/* Compact two-row fallback for very narrow viewports */
-@container reader (max-width: 28rem){
+/* Very narrow: stack actions under strip */
+@media (max-width: 36rem){
   #toolbar{
     grid-template-columns: 1fr;
     row-gap: .4rem;
@@ -201,58 +215,9 @@ details.tools[open] > summary{ outline: var(--focus-outline); outline-offset: va
   #actions{ justify-content: flex-end; }
 }
 
-/* If container queries are not supported, use a width media query fallback */
-@supports not (container-type: inline-size){
-  @media (max-width: 36rem){
-    #toolbar{
-      grid-template-columns: 1fr;
-      row-gap: .4rem;
-    }
-    #actions{ justify-content: flex-end; }
-  }
-}
-
-
-/* Visually hidden but focusable when tabbed to */
-.visually-hidden{
-  position: absolute !important;
-  inline-size: 1px; block-size: 1px;
-  margin: -1px; padding: 0; border: 0;
-  clip: rect(0 0 0 0); overflow: hidden;
-}
-
 /* =========================================================
-   Toolbar
+   More panel
    ========================================================= */
-#toolbar{
-  position: sticky; top: 0; z-index: 1000;
-  display: grid; grid-template-columns: 1fr auto; align-items: center;
-  gap: .5rem; padding: .4rem .5rem;
-  background: var(--surface-bg); color: var(--surface-fg);
-  border-block-end: 1px solid var(--border-weak);
-  font-family: var(--ui-font);
-}
-#quick{ display: flex; align-items: center; gap: .5rem; flex-wrap: nowrap; min-height: 48px; }
-#quick select, #quick input[type="range"], #quick button{
-  font: inherit; padding: .3rem .45rem;
-  border: 1px solid var(--field-border);
-  border-radius: .375rem;
-  background: var(--field-bg); color: var(--field-fg);
-  min-height: 36px;
-}
-#size{ inline-size: clamp(110px, 16vw, 160px); }
-#measure{ inline-size: clamp(110px, 20vw, 200px); }
-.readout{ font-size: .9em; opacity: .85; min-width: 4ch; text-align: right; }
-
-details.tools{ position: relative; }
-details.tools > summary{
-  list-style: none; cursor: pointer; user-select: none;
-  padding: .3rem .6rem; border: 1px solid var(--field-border);
-  border-radius: .375rem; background: var(--field-bg);
-}
-details.tools > summary::-webkit-details-marker{ display: none; }
-details.tools[open] > summary{ outline: var(--focus-outline); outline-offset: var(--focus-offset); }
-
 .panel{
   position: fixed;
   left: 0; right: 0;
@@ -354,13 +319,17 @@ body.focus-mode .site-footer{
   color: color-mix(in srgb, currentColor 65%, transparent);
 }
 
-/* Accessibility and motion */
+/* =========================================================
+   Accessibility and motion
+   ========================================================= */
 *:focus-visible{ outline: var(--focus-outline); outline-offset: var(--focus-offset); }
 @media (prefers-reduced-motion: reduce){
   *{ animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
 
-/* Print keeps content, ignores focus mode UI */
+/* =========================================================
+   Print
+   ========================================================= */
 @media print{
   #toolbar, .flank, .site-footer{ display: none !important; }
   .article{ border: 0; padding: 0; }
