@@ -48,7 +48,8 @@ body.theme-high-contrast #quick{
 #quick select,
 #quick input[type="range"],
 #quick button,
-#actions > *{
+#actions > button,
+#actions > select {
   font: inherit;
   padding: .3rem .45rem;
   border: 1px solid var(--field-border);
@@ -57,6 +58,22 @@ body.theme-high-contrast #quick{
   color: var(--field-fg);
   min-height: 36px;
 }
+#actions > details.tools{
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+details.tools > summary{
+  /* keep your single border here */
+  border: 1px solid var(--field-border);
+}
+
+#quick { overflow-x: auto; }
+#quick > * { flex: 0 0 auto; }
+#quick label { white-space: nowrap; }
+#quick .readout { white-space: nowrap; min-width: 5ch; text-align: right; }
+#toolbar, #toolbar * { line-height: 1.2; }
+
 #size{ inline-size: clamp(110px, 16vw, 160px); }
 #measure{ inline-size: clamp(110px, 20vw, 200px); }
 .readout{ font-size: .9em; opacity: .85; min-width: 4ch; text-align: right; }
