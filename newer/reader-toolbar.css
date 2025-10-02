@@ -1,0 +1,222 @@
+/* reader-toolbar.css - Redesigned for a responsive dashboard UI */
+
+:root {
+  --bp-medium: 48em; /* ~768px */
+  --bp-large: 64em;  /* ~1024px */
+}
+
+/* =========================================================
+   MAIN TOOLBAR
+   ========================================================= */
+
+#toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  background: var(--surface-bg);
+  color: var(--surface-fg);
+  border-block-end: 1px solid var(--border-weak);
+  font-family: var(--ui-font-family);
+  min-height: 52px; /* A bit more breathing room */
+}
+
+/* Left side: Quick controls that appear on wider screens */
+#quick-controls {
+  display: none; /* Hidden on mobile by default */
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Right side: Pinned actions */
+#actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+/* =========================================================
+   SETTINGS PANEL (<details> pop-over)
+   ========================================================= */
+
+details.tools {
+  position: relative; /* Anchor for the panel */
+}
+
+details.tools > summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--field-border);
+  border-radius: 0.375rem;
+  background: var(--field-bg);
+  color: var(--field-fg);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+details.tools > summary::-webkit-details-marker { display: none; }
+details.tools[open] > summary {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-offset);
+  border-color: var(--field-border-strong);
+}
+
+#settings-panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 1001;
+  
+  background: var(--surface-bg);
+  color: var(--surface-fg);
+  border: 1px solid var(--border-weak);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 1rem;
+  
+  width: max-content; /* Adjusts to content */
+  min-width: 280px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Hide the default panel class from the old CSS if it exists */
+.panel { display: none; }
+#settings-panel.panel { display: grid; } /* Ensure our panel is visible */
+
+
+/* =========================================================
+   CONTROLS & GROUPS STYLING
+   ========================================================= */
+
+#settings-panel fieldset {
+  border: 1px solid var(--border-weak);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+#settings-panel legend {
+  font-weight: 600;
+  padding: 0 0.25rem;
+  margin-inline-start: -0.25rem;
+  font-size: 0.9rem;
+}
+
+/* Generic control group for label + input alignment */
+.control-group {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+.control-group label {
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+.control-group select,
+.control-group input[type="range"] {
+  width: 100%;
+  min-width: 120px;
+}
+
+/* Grouping range slider and its output */
+.control-group input[type="range"] { grid-column: 1 / -1; }
+.control-group .readout { 
+  grid-column: 2;
+  justify-self: end;
+  font-size: 0.9em;
+  opacity: 0.85;
+}
+.control-group label { grid-row: 1; grid-column: 1; }
+.control-group .readout { grid-row: 1; grid-column: 2; }
+.control-group input[type="range"] { grid-row: 2; }
+
+
+/* Sizing for all controls */
+#toolbar select,
+#toolbar input[type="range"],
+#toolbar button,
+#actions > select {
+  font: inherit;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--field-border);
+  border-radius: 0.375rem;
+  background: var(--field-bg);
+  color: var(--field-fg);
+  min-height: 36px;
+  box-sizing: border-box;
+}
+
+/* Row for buttons like Save/Reset */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.row button {
+  flex-grow: 1; /* Make buttons fill the space */
+}
+
+.tts-playback button {
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================= */
+
+/* Medium screens and up (Tablets) */
+@media (min-width: var(--bp-medium)) {
+  #toolbar {
+    padding-inline: 1rem;
+    gap: 1rem;
+  }
+  
+  #quick-controls {
+    display: inline-flex; /* Show quick controls */
+  }
+
+  /* Make panel wider */
+  #settings-panel {
+    min-width: 360px;
+  }
+}
+
+/* Large screens and up (Desktops) */
+@media (min-width: var(--bp-large)) {
+  #settings-panel {
+    display: grid;
+    /* Create two columns for a dashboard layout */
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    gap: 1rem 1.25rem;
+    width: 500px;
+  }
+
+  /* Span wider sections if needed */
+  #settings-panel fieldset:has(.tts-playback) {
+     grid-column: 1 / -1;
+  }
+}
+
+/* Legacy fallback for very narrow toolbars from old CSS */
+@media (max-width: 36rem){
+  #toolbar{ 
+    grid-template-columns: 1fr auto;
+    row-gap: 0;
+  }
+}
