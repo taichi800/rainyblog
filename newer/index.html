@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en" data-mag="" data-img-mode="normal">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reader Test Harness</title>
+  <link rel="stylesheet" href="reader.css">
+  <link rel="stylesheet" href="reader-toolbar.css">
+  <style>
+    /* Small visual aid for the live status line */
+    #status{ font: 0.95rem/1.2 ui-sans-serif, system-ui; opacity:.85; padding:.25rem .5rem; }
+  </style>
+</head>
+<body class="theme-light">
+  <a class="visually-hidden" href="#main">Skip to main content</a>
+
+  <header class="site-header" role="banner">
+    <nav aria-label="Primary">
+      <details>
+        <summary class="hamburger">Menu</summary>
+        <ul class="menu">
+          <li><a href="#one">Section 1</a></li>
+          <li><a href="#two">Section 2</a></li>
+          <li><a href="#three">Section 3</a></li>
+          <li><a href="#images">Images</a></li>
+        </ul>
+      </details>
+    </nav>
+  </header>
+
+  <!-- Toolbar -->
+  <div id="toolbar" role="region" aria-label="Reader toolbar">
+  <div id="quick-controls">
+    <div class="control-group">
+      <label for="theme" class="visually-hidden">Theme</label>
+      <select id="theme" aria-label="Theme">
+        <option value="theme-light">Light</option>
+        <option value="theme-dark">Dark</option>
+        <option value="theme-sepia">Sepia</option>
+        <option value="theme-gray">Gray</option>
+        <option value="theme-high-contrast">High contrast</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label for="size" class="visually-hidden">Text Size</label>
+      <input id="size" type="range" min="0.80" max="2.00" step="0.01" value="1.00" aria-labelledby="size" title="Text Size">
+      <output id="sizeOut" class="readout" for="size">1.00</output>
+    </div>
+  </div>
+
+  <div id="actions">
+    <button id="focus" type="button" aria-pressed="false" title="Toggle focus mode (F)">Focus</button>
+    <button id="print-document" type="button" title="Print">Print</button>
+
+    <details class="tools">
+      <summary aria-controls="settings-panel">Settings</summary>
+      <div id="settings-panel" class="panel">
+        
+        <fieldset>
+          <legend>Appearance</legend>
+          <div class="control-group">
+            <label for="family">Font Family</label>
+            <select id="family" aria-label="Font family">
+              <option value='ui-serif, Georgia, Cambria, "Times New Roman", Times, serif'>Serif</option>
+              <option value='ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif'>Sans</option>
+              <option value='"Atkinson Hyperlegible", ui-sans-serif, system-ui, Arial, sans-serif'>Hyperlegible</option>
+              <option value='Georgia, "Times New Roman", Times, serif'>Georgia</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="mag">Magnification</label>
+            <select id="mag" aria-label="Magnification">
+              <option value="">Base</option>
+              <option value="lg">Large</option>
+              <option value="xl">Extra large</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="imgmode">Images</label>
+            <select id="imgmode" aria-label="Image mode">
+              <option value="normal">Normal</option>
+              <option value="compact">Compact</option>
+              <option value="hidden">Hidden</option>
+            </select>
+          </div>
+          
+        </fieldset>
+
+        <fieldset>
+  <legend>Appearance</legend>
+  <div class="control-group">
+    <label for="size">Text Size</label>
+    <input id="size-panel" type="range" min="0.80" max="2.00" step="0.01" value="1.00">
+    <output id="sizeOut-panel" class="readout" for="size-panel">1.00</output>
+  </div>
+  <div class="control-group">
+    <label for="family">Font Family</label>
+    <select id="family">
+      </select>
+  </div>
+  <div class="control-group">
+    <label for="mag">Magnification</label>
+    <select id="mag">
+      </select>
+  </div>
+  <div class="control-group">
+    <label for="imgmode">Images</label>
+    <select id="imgmode">
+      </select>
+  </div>
+</fieldset>
+
+        <fieldset>
+          <legend>Typography</legend>
+          <div class="control-group">
+            <label for="measure">Measure (ch)</label>
+            <input id="measure" type="range" min="40" max="80" step="1" value="45">
+            <output id="measureOut" class="readout" for="measure">45</output>
+          </div>
+          <div class="control-group">
+            <label for="leading">Line Height</label>
+            <input id="leading" type="range" min="1.20" max="2.20" step="0.01" value="1.60">
+            <output id="leadingOut" class="readout" for="leading">1.60</output>
+          </div>
+          <div class="control-group">
+            <label for="lspace">Letter Spacing</label>
+            <input id="lspace" type="range" min="-0.02" max="0.10" step="0.005" value="0.00">
+          </div>
+          <div class="control-group">
+            <label for="wspace">Word Spacing</label>
+            <input id="wspace" type="range" min="0.00" max="0.30" step="0.01" value="0.00">
+          </div>
+          <div class="control-group">
+            <label for="align">Text Align</label>
+            <select id="align" aria-label="Text alignment">
+              <option value="left">Left</option>
+              <option value="start">Start</option>
+              <option value="justify">Justify</option>
+            </select>
+          </div>
+        </fieldset>
+        
+        <fieldset>
+          <legend>Text-to-Speech</legend>
+          <div class="row tts-playback" role="group" aria-label="Playback">
+            <button id="tts-rewind" type="button" title="Previous chunk">⟸</button>
+            <button id="tts-play" type="button" title="Play">▶</button>
+            <button id="tts-pause" type="button" title="Pause">⏸</button>
+            <button id="tts-stop" type="button" title="Stop">⏹</button>
+            <button id="tts-ffwd" type="button" title="Next chunk">⟹</button>
+          </div>
+           <div class="control-group">
+            <label for="tts-rate">Rate</label>
+            <input id="tts-rate" type="range" min="0.50" max="2.00" step="0.05" value="1.00">
+            <output id="tts-rateOut" class="readout" for="tts-rate">1.00x</output>
+          </div>
+          <div class="control-group">
+            <label for="tts-pitch">Pitch</label>
+            <input id="tts-pitch" type="range" min="0.10" max="2.00" step="0.05" value="1.00">
+            <output id="tts-pitchOut" class="readout" for="tts-pitch">1.00</output>
+          </div>
+          <div class="control-group">
+            <label for="tts-voice">Voice</label>
+            <select id="tts-voice"></select>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Preferences</legend>
+          <div class="row">
+            <button id="save-session" type="button">Save Session</button>
+            <button id="save-persist" type="button">Save Device</button>
+            <button id="reset" type="button">Reset All</button>
+          </div>
+        </fieldset>
+        
+      </div>
+    </details>
+  </div>
+</div>
+
+  <div id="status" role="status" aria-live="polite"></div>
+  <div id="aria-live" class="visually-hidden" aria-live="polite"></div>
+
+  <main id="main">
+    <article class="article prose" aria-labelledby="title">
+      <header class="article-header">
+        <h1 id="title">Reader Test Article</h1>
+        <p class="byline">A short fixture to exercise the toolbar, breakpoints, and TTS.</p>
+      </header>
+
+      <section id="one">
+        <h2>Section 1: Paragraphs</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vehicula, sapien non laoreet interdum, libero turpis iaculis nulla, a facilisis odio lectus quis nibh.</p>
+        <p>Aenean faucibus, lectus at pretium volutpat, ante nibh convallis nibh, at efficitur lacus erat id arcu. Integer dictum dui ut posuere gravida.</p>
+      </section>
+
+      <section id="two">
+        <h2>Section 2: Lists</h2>
+        <ul>
+          <li>Item one with some text to test wrapping and hyphenation.</li>
+          <li>Item two to check spacing consistency and measure limits.</li>
+          <li>Item three with a <a href="#images">jump link to images</a>.</li>
+        </ul>
+      </section>
+
+      <section id="three">
+        <h2>Section 3: Blockquote and Details</h2>
+        <blockquote>
+          <p>Accessible UI should meet WCAG contrast ratios and tap sizes, avoid color‑only cues, and support keyboard navigation.</p>
+        </blockquote>
+        <details>
+          <summary>Expandable details</summary>
+          <p>This content is visible when expanded. It helps test print styles and semantics.</p>
+        </details>
+      </section>
+
+      <section id="images">
+        <h2>Section 4: Figures</h2>
+        <figure class="lead-figure">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock.jpg" alt="Sample landscape" loading="lazy">
+          <figcaption>A sample image. Switch image mode to test compact and hidden states.</figcaption>
+        </figure>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <small>Fixture for reader.css and reader-toolbar.css</small>
+  </footer>
+
+  <script src="reader.js" defer></script>
+</body>
+</html>
