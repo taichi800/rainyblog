@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dukr3g Reader • Milestone 1</title>
+  <link rel="stylesheet" href="reader.css">
+</head>
+<body>
+  <!-- Single opener. No hamburger. No toolbar strip. -->
+  <button id="reader-open"
+          class="reader-open"
+          aria-haspopup="dialog"
+          aria-controls="panel-display"
+          aria-expanded="false"
+          title="Reader tools (Alt+R)">•</button>
+
+  <!-- Display panel: Four fundamentals only -->
+  <dialog id="panel-display" aria-labelledby="h-display">
+    <form method="dialog" class="panel" novalidate>
+      <header class="panel-head">
+        <h2 id="h-display">Display</h2>
+        <button value="close" aria-label="Close panel">✕</button>
+      </header>
+
+      <section class="panel-body" role="document" aria-describedby="display-help">
+        <p id="display-help" class="visually-hidden">
+          Adjust theme, font size, measure, and line height.
+        </p>
+
+        <fieldset>
+          <legend>Theme</legend>
+          <label for="theme-select" class="visually-hidden">Theme</label>
+          <select id="theme-select" aria-label="Theme">
+            <option value="theme-light">Light</option>
+            <option value="theme-dark">Dark</option>
+            <option value="theme-sepia">Sepia</option>
+            <option value="theme-gray">Gray</option>
+            <option value="theme-high-contrast">High contrast</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Text geometry</legend>
+
+          <div class="control">
+            <label for="size-range">Font size</label>
+            <input id="size-range" type="range" min="0.80" max="2.00" step="0.01" value="1.00">
+            <output id="size-out" for="size-range">1.00</output>
+          </div>
+
+          <div class="control">
+            <label for="measure-range">Measure (ch)</label>
+            <input id="measure-range" type="range" min="40" max="100" step="1" value="70">
+            <output id="measure-out" for="measure-range">70</output>
+          </div>
+
+          <div class="control">
+            <label for="leading-range">Line height</label>
+            <input id="leading-range" type="range" min="1.20" max="2.20" step="0.01" value="1.60">
+            <output id="leading-out" for="leading-range">1.60</output>
+          </div>
+        </fieldset>
+      </section>
+    </form>
+  </dialog>
+
+  <!-- Live announcements -->
+  <div id="status" role="status" aria-live="polite" class="status"></div>
+
+  <!-- Reading content -->
+  <main id="main">
+    <article class="prose" aria-labelledby="t1">
+      <h1 id="t1">Test Article</h1>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Etiam nec purus a dui placerat fermentum. Curabitur non ligula vitae arcu vehicula dapibus.
+      </p>
+      <p>
+        Drag the sliders to see measure and line height change immediately.
+      </p>
+    </article>
+  </main>
+
+  <script src="reader.js" defer></script>
+</body>
+</html>
