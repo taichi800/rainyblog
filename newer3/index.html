@@ -1,131 +1,138 @@
 <!doctype html>
-<html lang="en" class="theme-light">
+<html lang="en" class="dukr3g-theme-light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dukr3g Reader • M2</title>
+  <title>Dukr3g Reader • M2 Namespaced</title>
   <link rel="stylesheet" href="reader.css">
 </head>
 <body>
-  <!-- Single opener -->
-  <button id="reader-open"
-          class="reader-open"
-          aria-haspopup="dialog"
-          aria-controls="reader-dialog"
-          aria-expanded="false"
-          title="Reader tools (Alt+R)">•</button>
+  <!-- Single opener: 讀 -->
+<button id="dukr3g-open"
+        class="dukr3g-open"
+        aria-haspopup="dialog"
+        aria-controls="dukr3g-dialog"
+        aria-expanded="false"
+        aria-label="Open reader tools (Alt+R)"
+        title="Reader tools (Alt+R)">
+  <span class="dukr3g-glyph" aria-hidden="true">讀</span>
+</button>
+
 
   <!-- One dialog with 3 views: Menu, Display, TTS -->
-  <dialog id="reader-dialog" aria-labelledby="h-menu">
-    <form method="dialog" class="panel" novalidate>
-      <header class="panel-head">
-        <h2 id="dialog-title">Reader Tools</h2>
-        <div class="head-actions">
-          <button type="button" id="btn-back" class="ghost" hidden aria-label="Back">←</button>
+  <dialog id="dukr3g-dialog" aria-labelledby="dukr3g-h-menu">
+    <form method="dialog" class="dukr3g-panel" novalidate>
+      <header class="dukr3g-panel-head">
+        <h2 id="dukr3g-dialog-title">Reader Tools</h2>
+        <div class="dukr3g-head-actions">
+          <button type="button" id="dukr3g-btn-back" class="dukr3g-ghost" hidden aria-label="Back">←</button>
           <button value="close" aria-label="Close panel">✕</button>
         </div>
       </header>
 
       <!-- View: Menu -->
-      <section id="view-menu" class="panel-body view current" role="document" aria-describedby="menu-help">
-        <p id="menu-help" class="visually-hidden">Choose a tool category.</p>
-        <ul class="tile-grid" role="list">
+      <section id="dukr3g-view-menu" class="dukr3g-panel-body dukr3g-view dukr3g-current"
+               role="document" aria-describedby="dukr3g-menu-help">
+        <p id="dukr3g-menu-help" class="dukr3g-visually-hidden">Choose a tool category.</p>
+        <ul class="dukr3g-tile-grid" role="list">
           <li>
-            <button type="button" id="go-display" class="tile" aria-describedby="desc-display">
-              <span class="tile-title">Display</span>
-              <span id="desc-display" class="tile-desc">Theme, size, measure, line height</span>
+            <button type="button" id="dukr3g-go-display" class="dukr3g-tile" aria-describedby="dukr3g-desc-display">
+              <span class="dukr3g-tile-title">Display</span>
+              <span id="dukr3g-desc-display" class="dukr3g-tile-desc">Theme, size, measure, line height</span>
             </button>
           </li>
           <li>
-            <button type="button" id="go-tts" class="tile" aria-describedby="desc-tts">
-              <span class="tile-title">TTS</span>
-              <span id="desc-tts" class="tile-desc">Play, rate, pitch, voice</span>
+            <button type="button" id="dukr3g-go-tts" class="dukr3g-tile" aria-describedby="dukr3g-desc-tts">
+              <span class="dukr3g-tile-title">TTS</span>
+              <span id="dukr3g-desc-tts" class="dukr3g-tile-desc">Play, rate, pitch, voice</span>
             </button>
           </li>
         </ul>
-        <div class="kbd-help">Tips: press D for Display, T for TTS, Esc to close.</div>
+        <div class="dukr3g-kbd-help">Tips: press D for Display, T for TTS, Esc to close.</div>
       </section>
 
       <!-- View: Display -->
-      <section id="view-display" class="panel-body view" role="document" aria-labelledby="h-display" hidden>
-        <h3 id="h-display" class="view-heading">Display</h3>
+      <section id="dukr3g-view-display" class="dukr3g-panel-body dukr3g-view"
+               role="document" aria-labelledby="dukr3g-h-display" hidden>
+        <h3 id="dukr3g-h-display" class="dukr3g-view-heading">Display</h3>
 
         <fieldset>
           <legend>Theme</legend>
-          <label for="theme-select" class="visually-hidden">Theme</label>
-          <select id="theme-select" aria-label="Theme">
-            <option value="theme-light">Light</option>
-            <option value="theme-dark">Dark</option>
-            <option value="theme-sepia">Sepia</option>
-            <option value="theme-gray">Gray</option>
-            <option value="theme-high-contrast">High contrast</option>
+          <label for="dukr3g-theme" class="dukr3g-visually-hidden">Theme</label>
+          <select id="dukr3g-theme" aria-label="Theme">
+            <option value="dukr3g-theme-light">Light</option>
+            <option value="dukr3g-theme-dark">Dark</option>
+            <option value="dukr3g-theme-sepia">Sepia</option>
+            <option value="dukr3g-theme-gray">Gray</option>
+            <option value="dukr3g-theme-high-contrast">High contrast</option>
           </select>
         </fieldset>
 
         <fieldset>
           <legend>Text geometry</legend>
 
-          <div class="control">
-            <label for="size-range">Font size</label>
-            <input id="size-range" type="range" min="0.80" max="2.00" step="0.01" value="1.00">
-            <output id="size-out" for="size-range">1.00</output>
+          <div class="dukr3g-control">
+            <label for="dukr3g-size">Font size</label>
+            <input id="dukr3g-size" type="range" min="0.80" max="2.00" step="0.01" value="1.00">
+            <output id="dukr3g-size-out" for="dukr3g-size">1.00</output>
           </div>
 
-          <div class="control">
-            <label for="measure-range">Measure (ch)</label>
-            <input id="measure-range" type="range" min="40" max="100" step="1" value="70">
-            <output id="measure-out" for="measure-range">70</output>
+          <div class="dukr3g-control">
+            <label for="dukr3g-measure">Measure (ch)</label>
+            <input id="dukr3g-measure" type="range" min="40" max="100" step="1" value="70">
+            <output id="dukr3g-measure-out" for="dukr3g-measure">70</output>
           </div>
 
-          <div class="control">
-            <label for="leading-range">Line height</label>
-            <input id="leading-range" type="range" min="1.20" max="2.20" step="0.01" value="1.60">
-            <output id="leading-out" for="leading-range">1.60</output>
+          <div class="dukr3g-control">
+            <label for="dukr3g-leading">Line height</label>
+            <input id="dukr3g-leading" type="range" min="1.20" max="2.20" step="0.01" value="1.60">
+            <output id="dukr3g-leading-out" for="dukr3g-leading">1.60</output>
           </div>
         </fieldset>
       </section>
 
       <!-- View: TTS -->
-      <section id="view-tts" class="panel-body view" role="document" aria-labelledby="h-tts" hidden>
-        <h3 id="h-tts" class="view-heading">Text to Speech</h3>
+      <section id="dukr3g-view-tts" class="dukr3g-panel-body dukr3g-view"
+               role="document" aria-labelledby="dukr3g-h-tts" hidden>
+        <h3 id="dukr3g-h-tts" class="dukr3g-view-heading">Text to Speech</h3>
 
-        <div class="row tts-playback" role="group" aria-label="Playback">
-          <button type="button" id="tts-play"  title="Play">▶</button>
-          <button type="button" id="tts-pause" title="Pause">⏸</button>
-          <button type="button" id="tts-stop"  title="Stop">⏹</button>
+        <div class="dukr3g-row dukr3g-tts-playback" role="group" aria-label="Playback">
+          <button type="button" id="dukr3g-tts-play"  title="Play">▶</button>
+          <button type="button" id="dukr3g-tts-pause" title="Pause">⏸</button>
+          <button type="button" id="dukr3g-tts-stop"  title="Stop">⏹</button>
         </div>
 
-        <div class="control">
-          <label for="tts-rate-range">Rate</label>
-          <input id="tts-rate-range" type="range" min="0.50" max="2.00" step="0.05" value="1.00">
-          <output id="tts-rate-out" for="tts-rate-range">1.00x</output>
+        <div class="dukr3g-control">
+          <label for="dukr3g-tts-rate">Rate</label>
+          <input id="dukr3g-tts-rate" type="range" min="0.50" max="2.00" step="0.05" value="1.00">
+          <output id="dukr3g-tts-rate-out" for="dukr3g-tts-rate">1.00x</output>
         </div>
 
-        <div class="control">
-          <label for="tts-pitch-range">Pitch</label>
-          <input id="tts-pitch-range" type="range" min="0.10" max="2.00" step="0.05" value="1.00">
-          <output id="tts-pitch-out" for="tts-pitch-range">1.00</output>
+        <div class="dukr3g-control">
+          <label for="dukr3g-tts-pitch">Pitch</label>
+          <input id="dukr3g-tts-pitch" type="range" min="0.10" max="2.00" step="0.05" value="1.00">
+          <output id="dukr3g-tts-pitch-out" for="dukr3g-tts-pitch">1.00</output>
         </div>
 
-        <div class="control">
-          <label for="tts-voice-select">Voice</label>
-          <select id="tts-voice-select" aria-label="Voice"></select>
+        <div class="dukr3g-control">
+          <label for="dukr3g-tts-voice">Voice</label>
+          <select id="dukr3g-tts-voice" aria-label="Voice"></select>
         </div>
 
-        <p class="note">This basic TTS uses the browser speech engine if available. It reads the first article on the page.</p>
+        <p class="dukr3g-note">This basic TTS uses the browser speech engine if available. It reads the first article on the page.</p>
       </section>
     </form>
   </dialog>
 
   <!-- Live announcements -->
-  <div id="status" role="status" aria-live="polite" class="status"></div>
+  <div id="dukr3g-status" role="status" aria-live="polite" class="dukr3g-status"></div>
 
-  <!-- Reading content -->
+  <!-- Reading content: only this block uses dukr3g typography vars -->
   <main id="main">
-    <article class="prose" aria-labelledby="t1">
+    <article class="dukr3g-prose" aria-labelledby="t1">
       <h1 id="t1">Test Article</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec purus a dui placerat fermentum.</p>
-      <p>Drag the sliders in Display to see changes to measure and line height.</p>
+      <p>Use Display to adjust theme, size, measure, and line height.</p>
     </article>
   </main>
 
