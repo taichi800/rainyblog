@@ -1,5 +1,5 @@
 /* =========================================================
-   dukr3g reader.css  —  consolidated, namespaced, theme-aware
+   dukr3g reader.css  -  consolidated, namespaced, theme-aware
    ========================================================= */
 
 /* -----------------------------
@@ -42,6 +42,16 @@
   /* Status pill */
   --dukr3g-status-bg: rgba(0,0,0,.60);
   --dukr3g-status-fg: #ffffff;
+
+  /* User theme tokens. Used only when html.dukr3g-theme-custom is active. */
+  --dukr3g-user-text: #111111;
+  --dukr3g-user-bg: #ffffff;
+  --dukr3g-user-link: #2b6cf0;
+  --dukr3g-user-visited: #5a2bb0;
+
+  /* Read-aloud highlight tokens */
+  --dukr3g-ral-ink: #0064ff;       /* ink emphasis color */
+  --dukr3g-ral-bg:  #ffec80;       /* background highlight color */
 }
 
 /* -----------------------------
@@ -86,6 +96,21 @@
   --dukr3g-status-bg:#000000; --dukr3g-status-fg:#ffffff;
 }
 
+/* Custom theme surface, used only when selected */
+.dukr3g-theme-custom{
+  color: var(--dukr3g-user-text, #111);
+  background: var(--dukr3g-user-bg, #fff);
+
+  /* Panel tokens follow the page for visual consistency */
+  --dukr3g-surface:   var(--dukr3g-user-bg, #ffffff);
+  --dukr3g-surface-2: color-mix(in srgb, var(--dukr3g-surface) 85%, black 15%);
+  --dukr3g-text:      var(--dukr3g-user-text, #111111);
+  --dukr3g-border:    color-mix(in srgb, var(--dukr3g-text) 20%, transparent);
+  --dukr3g-accent:    var(--dukr3g-user-link, #2b6cf0);
+  --dukr3g-status-bg: color-mix(in srgb, var(--dukr3g-text) 75%, transparent);
+  --dukr3g-status-fg: var(--dukr3g-surface, #ffffff);
+}
+
 /* -----------------------------
    Reading content
    ----------------------------- */
@@ -96,6 +121,42 @@
   max-width: calc(var(--dukr3g-measure) * 1ch);
   margin: 2rem auto;
   padding: 0 1rem;
+}
+
+.dukr3g-prose a:link{
+  color: var(--dukr3g-user-link, LinkText);
+  text-decoration-thickness: .08em;
+  text-underline-offset: .12em;
+}
+.dukr3g-prose a:visited{
+  color: var(--dukr3g-user-visited, color-mix(in srgb, currentColor 60%, purple 40%));
+}
+.dukr3g-prose a:focus-visible{ outline: 2px solid var(--dukr3g-accent); outline-offset: 2px; }
+
+/* Read-aloud ink emphasis: underline the current token or sentence */
+.dukr3g-ral-ink{
+  text-decoration-line: underline;
+  text-decoration-thickness: .18em;
+  text-underline-offset: .12em;
+  text-decoration-color: var(--dukr3g-ral-ink);
+  text-decoration-skip-ink: auto;
+}
+
+/* Read-aloud background highlight: high-visibility marker behind text */
+.dukr3g-ral-bg{
+  background: var(--dukr3g-ral-bg);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Forced colors compatibility for reading content */
+@media (forced-colors: active){
+  .dukr3g-prose a:link,
+  .dukr3g-prose a:visited{
+    color: LinkText;
+  }
+  .dukr3g-ral-ink{ text-decoration-color: Highlight; }
+  .dukr3g-ral-bg { background: Highlight; color: HighlightText; }
 }
 
 /* -----------------------------
@@ -162,7 +223,7 @@
    ----------------------------- */
 .dukr3g-head-actions{ display: inline-flex; gap: .5rem; }
 
-/* Back & Close (text icons, WCAG ≥44px, identical look) */
+/* Back and Close (text icons, WCAG >= 44px, identical look) */
 #dukr3g-btn-back,
 #dukr3g-btn-close{
   min-width: 44px;
@@ -177,7 +238,7 @@
   background: var(--dukr3g-surface-2);
   color: var(--dukr3g-text);
   line-height: 1;
-  font: 700 18px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif; /* crisp ← × */
+  font: 700 18px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
 }
 #dukr3g-btn-back:hover,
 #dukr3g-btn-close:hover{
@@ -248,12 +309,14 @@ fieldset{
 }
 legend{ padding: 0 .25rem; font-weight: 600; }
 
-/* Control row: Label | Number | Range | Output, responsive */
+/* Control row:
+   label | numeric/hex | range or color | output
+   This fits both number+range and hex+color patterns. */
 .dukr3g-control{
   display: grid;
-  grid-template-columns: auto minmax(7ch, 10ch) 1fr auto;
+  grid-template-columns: auto minmax(7ch, 12ch) 1fr auto;
   align-items: center;
-  column-gap: 1rem;           /* + space so number and slider don’t crowd */
+  column-gap: 1rem;           /* space so number and slider do not crowd */
   row-gap: .4rem;
 }
 .dukr3g-control > label{
@@ -261,6 +324,8 @@ legend{ padding: 0 .25rem; font-weight: 600; }
   line-height: 1.2;
   white-space: nowrap;
 }
+
+/* Number boxes */
 .dukr3g-control input[type="number"]{
   padding: .45rem .5rem;
   border: 1px solid var(--dukr3g-border);
@@ -271,15 +336,50 @@ legend{ padding: 0 .25rem; font-weight: 600; }
   width: 100%;
   min-height: 44px;
 }
+
+/* Range sliders */
 .dukr3g-control input[type="range"]{
   width: 100%;
   min-height: calc(44px - 10px);
-  margin-inline-start: .25rem;  /* extra breathing room beside the number */
+  margin-inline-start: .25rem;  /* breathing room beside the number */
 }
+
+/* Hex text boxes */
+.dukr3g-control input[type="text"]{
+  padding: .45rem .5rem;
+  border: 1px solid var(--dukr3g-border);
+  border-radius: 6px;
+  background: var(--dukr3g-surface);
+  color: var(--dukr3g-text);
+  font: 500 0.95rem/1.2 ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  width: 100%;
+  min-height: 44px;
+}
+.dukr3g-control input[type="text"]::placeholder{ color: #8892a2; }
+.dukr3g-control input[type="text"]:invalid{ border-color: #c05621; }
+
+/* Color windows */
+.dukr3g-control input[type="color"]{
+  width: 3rem;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--dukr3g-border);
+  border-radius: 6px;
+  background: var(--dukr3g-surface);
+  inline-size: 3rem;
+  block-size: 44px;
+  justify-self: start;
+  margin-inline-start: .25rem;
+}
+
+/* Output cells */
 .dukr3g-control output{
-  min-width: 5ch;
+  min-width: 7ch;
   text-align: right;
   font-variant-numeric: tabular-nums;
+  font: 600 0.95rem/1.2 ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 /* Wider screens: nudge the number–slider gap a hair more */
@@ -296,7 +396,8 @@ legend{ padding: 0 .25rem; font-weight: 600; }
   .dukr3g-control output{ justify-self: end; }
 }
 @media (max-width: 380px){
-  .dukr3g-control input[type="number"]{ min-width: 12ch; }
+  .dukr3g-control input[type="number"],
+  .dukr3g-control input[type="text"]{ min-width: 12ch; }
   .dukr3g-control input[type="range"]{ margin-block: .15rem; }
 }
 
@@ -335,6 +436,7 @@ legend{ padding: 0 .25rem; font-weight: 600; }
 @media (forced-colors: active){
   #dukr3g-dialog, .dukr3g-tile, fieldset, .dukr3g-open,
   .dukr3g-control input[type="number"], .dukr3g-control input[type="range"],
+  .dukr3g-control input[type="text"], .dukr3g-control input[type="color"],
   .dukr3g-tts-playback button,
   #dukr3g-btn-back, #dukr3g-btn-close{
     forced-color-adjust: none;
@@ -348,8 +450,21 @@ legend{ padding: 0 .25rem; font-weight: 600; }
 }
 
 /* -----------------------------
+   Visually hidden utility
+   ----------------------------- */
+.dukr3g-visually-hidden{
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* -----------------------------
    Reduced motion
    ----------------------------- */
 @media (prefers-reduced-motion: reduce){
   *{ transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
+
+.dukr3g-w{ transition: background-color .12s linear, text-decoration-color .12s linear; }
