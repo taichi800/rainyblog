@@ -1,12 +1,10 @@
-/* Root variables used by the reader */
 :root{
-  --scale:   1.00;  /* multiplies base 16px */
-  --measure: 70;    /* characters */
-  --leading: 1.60;  /* unitless */
+  --scale:   1.00;
+  --measure: 70;
+  --leading: 1.60;
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", sans-serif;
 }
 
-/* Themes live on <html> as classes */
 .theme-light { color: #111; background: #fff; }
 .theme-dark  { color: #eee; background: #111; }
 .theme-sepia { color: #2b1d13; background: #f4ecd8; }
@@ -14,7 +12,6 @@
 .theme-high-contrast { color: #000; background: #fff; }
 .theme-high-contrast a { outline: 2px solid currentColor; }
 
-/* Base typography and layout */
 html, body { height: 100%; }
 body{
   margin: 0;
@@ -29,54 +26,84 @@ body{
   padding: 0 1rem;
 }
 
-/* Single opener button */
+/* Opener */
 .reader-open{
   position: fixed; top: 1rem; right: 1rem;
-  width: 36px; height: 36px;
+  width: 36px; height: 36px; z-index: 1000;
   border: 0; border-radius: 999px;
   background: rgba(0,0,0,.55); color: #fff;
   font: 700 20px/1 ui-sans-serif, system-ui;
   display: inline-flex; align-items: center; justify-content: center;
   cursor: pointer;
-  z-index: 1000;
 }
 .theme-dark .reader-open{ background: rgba(255,255,255,.25); color: #fff; }
 .theme-sepia .reader-open{ background: rgba(60,40,20,.55); color: #fff; }
 .reader-open:focus-visible{ outline: 2px solid #9cf; outline-offset: 2px; }
 
-/* Dialog styling */
+/* Dialog shell */
 dialog{
   border: 0; padding: 0; border-radius: 12px;
-  width: min(90vw, 720px);
+  width: min(92vw, 760px);
 }
 dialog::backdrop{ background: rgba(0,0,0,.4); }
 
 .panel-head{
-  display: flex; align-items: center; justify-content: space-between;
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+  gap: .75rem;
   padding: .75rem 1rem; border-bottom: 1px solid #ddd;
 }
-.panel-body{ padding: 1rem; display: grid; gap: 1rem; }
+.head-actions{ display: inline-flex; gap: .5rem; }
+.ghost{ background: transparent; border: 1px solid #bbb; border-radius: 8px; padding: .25rem .5rem; }
+.ghost:focus-visible{ outline: 2px solid #9cf; outline-offset: 2px; }
 
+.panel-body{ padding: 1rem; display: grid; gap: 1rem; }
+.view-heading{ margin: 0 0 .25rem 0; font-size: 1.1rem; }
+
+/* Menu tiles */
+.tile-grid{
+  --min: 220px;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--min), 1fr));
+  gap: 12px; list-style: none; margin: 0; padding: 0;
+}
+.tile{
+  display: grid; align-content: start; gap: 6px;
+  border-radius: 12px; padding: 1rem;
+  background: #f3f3f5; border: 1px solid #ddd;
+  text-align: left; color: inherit; cursor: pointer;
+  min-height: 96px;
+}
+.theme-dark .tile{ background: #1e1e1f; border-color: #333; }
+.theme-sepia .tile{ background: #efe6cf; border-color: #dacfae; }
+.tile:focus-visible{ outline: 2px solid #9cf; outline-offset: 2px; }
+.tile-title{ font: 600 1.1rem/1 ui-sans-serif, system-ui; }
+.tile-desc{ opacity: .75; font-size: .95rem; }
+
+/* Controls */
 fieldset{
   border: 1px solid #ddd; border-radius: 8px;
   padding: .75rem; min-inline-size: 0;
 }
 legend{ padding: 0 .25rem; font-weight: 600; }
 .control{
-  display: grid; grid-template-columns: 1fr auto; align-items: center; gap: .5rem;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: center; gap: .5rem;
 }
 .control output{ min-width: 4ch; text-align: right; }
 
-/* Status pill */
+/* Status */
 .status{
   position: fixed; bottom: .5rem; left: 50%; transform: translateX(-50%);
   padding: .25rem .5rem; border-radius: 6px;
   background: rgba(0,0,0,.6); color: #fff;
-  font: 0.95rem/1.2 ui-sans-serif, system-ui;
-  pointer-events: none;
+  font: 0.95rem/1.2 ui-sans-serif, system-ui; pointer-events: none;
 }
 .theme-light .status{ background: rgba(0,0,0,.65); }
 .theme-sepia .status{ background: rgba(60,40,20,.6); }
+
+/* View switching */
+.view{ display: none; }
+.view.current{ display: grid; }
+#btn-back[hidden]{ display: none !important; }
 
 /* A11y helper */
 .visually-hidden{
