@@ -71,23 +71,37 @@
         <fieldset>
           <legend>Text geometry</legend>
 
-          <div class="dukr3g-control">
-            <label for="dukr3g-size">Font size</label>
-            <input id="dukr3g-size" type="range" min="0.80" max="2.00" step="0.01" value="1.00">
-            <output id="dukr3g-size-out" for="dukr3g-size">1.00</output>
-          </div>
+<!-- Font size -->
+<div class="dukr3g-control">
+  <label for="dukr3g-size">Font size</label>
+  <input id="dukr3g-size-num" type="number" inputmode="decimal"
+         min="0.30" max="3.00" step="0.01" value="1.00" aria-label="Font size value">
+  <input id="dukr3g-size" type="range"
+         min="0.30" max="3.00" step="0.01" value="1.00">
+  <output id="dukr3g-size-out" for="dukr3g-size">1.00</output>
+</div>
 
-          <div class="dukr3g-control">
-            <label for="dukr3g-measure">Measure (ch)</label>
-            <input id="dukr3g-measure" type="range" min="40" max="100" step="1" value="70">
-            <output id="dukr3g-measure-out" for="dukr3g-measure">70</output>
-          </div>
+<!-- Measure -->
+<div class="dukr3g-control">
+  <label for="dukr3g-measure">Measure (ch)</label>
+  <input id="dukr3g-measure-num" type="number" inputmode="numeric"
+         min="40" max="121" step="1" value="70" aria-label="Measure value">
+  <input id="dukr3g-measure" type="range"
+         min="40" max="121" step="1" value="70">
+  <output id="dukr3g-measure-out" for="dukr3g-measure">70</output>
+</div>
 
-          <div class="dukr3g-control">
-            <label for="dukr3g-leading">Line height</label>
-            <input id="dukr3g-leading" type="range" min="1.20" max="2.20" step="0.01" value="1.60">
-            <output id="dukr3g-leading-out" for="dukr3g-leading">1.60</output>
-          </div>
+<!-- Line height -->
+<div class="dukr3g-control">
+  <label for="dukr3g-leading">Line height</label>
+  <input id="dukr3g-leading-num" type="number" inputmode="decimal"
+         min="1.00" max="2.50" step="0.01" value="1.60" aria-label="Line height value">
+  <input id="dukr3g-leading" type="range"
+         min="1.00" max="2.50" step="0.01" value="1.60">
+  <output id="dukr3g-leading-out" for="dukr3g-leading">1.60</output>
+</div>
+
+
         </fieldset>
       </section>
 
@@ -102,17 +116,26 @@
           <button type="button" id="dukr3g-tts-stop"  title="Stop">⏹</button>
         </div>
 
-        <div class="dukr3g-control">
-          <label for="dukr3g-tts-rate">Rate</label>
-          <input id="dukr3g-tts-rate" type="range" min="0.50" max="2.00" step="0.05" value="1.00">
-          <output id="dukr3g-tts-rate-out" for="dukr3g-tts-rate">1.00x</output>
-        </div>
+<!-- Rate -->
+<div class="dukr3g-control">
+  <label for="dukr3g-tts-rate">Rate</label>
+  <input id="dukr3g-tts-rate-num" type="number" inputmode="decimal"
+         min="0.10" max="10.00" step="0.05" value="1.00" aria-label="Speech rate value">
+  <input id="dukr3g-tts-rate" type="range"
+         min="0.10" max="10.00" step="0.05" value="1.00">
+  <output id="dukr3g-tts-rate-out" for="dukr3g-tts-rate">1.00x</output>
+</div>
 
-        <div class="dukr3g-control">
-          <label for="dukr3g-tts-pitch">Pitch</label>
-          <input id="dukr3g-tts-pitch" type="range" min="0.10" max="2.00" step="0.05" value="1.00">
-          <output id="dukr3g-tts-pitch-out" for="dukr3g-tts-pitch">1.00</output>
-        </div>
+<!-- Pitch -->
+<div class="dukr3g-control">
+  <label for="dukr3g-tts-pitch">Pitch</label>
+  <input id="dukr3g-tts-pitch-num" type="number" inputmode="decimal"
+         min="0.10" max="5.00" step="0.05" value="1.00" aria-label="Speech pitch value">
+  <input id="dukr3g-tts-pitch" type="range"
+         min="0.10" max="5.00" step="0.05" value="1.00">
+  <output id="dukr3g-tts-pitch-out" for="dukr3g-tts-pitch">1.00</output>
+</div>
+
 
         <div class="dukr3g-control">
           <label for="dukr3g-tts-voice">Voice</label>
