@@ -302,3 +302,61 @@ legend{ padding: 0 .25rem; font-weight: 600; }
 @media (prefers-reduced-motion: reduce){
   *{ transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
+
+/* =========================================================
+   DUKR3G — Head action buttons: Back and Close (WCAG ≥ 44px)
+   ========================================================= */
+
+/* Base: enforce touch target and center content */
+#dukr3g-btn-back,
+#dukr3g-btn-close{
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;                /* space if label + icon */
+  padding: .5rem .75rem;     /* text buttons meet target without huge visuals */
+  border: 1px solid var(--dukr3g-border);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  line-height: 1;
+}
+
+/* Icon-only variant: if you render only an icon, add data-icon to the button */
+#dukr3g-btn-back[data-icon],
+#dukr3g-btn-close[data-icon]{
+  width: 44px;               /* explicit square target */
+  height: 44px;
+  padding: 0;
+}
+
+/* SVG or icon size inside the buttons */
+#dukr3g-btn-back svg,
+#dukr3g-btn-close svg{
+  width: 20px;
+  height: 20px;
+}
+
+/* Focus and hover states consistent with the rest of the toolbar */
+#dukr3g-btn-back:focus-visible,
+#dukr3g-btn-close:focus-visible{
+  outline: 2px solid var(--dukr3g-accent);
+  outline-offset: 2px;
+}
+#dukr3g-btn-back:hover,
+#dukr3g-btn-close:hover{
+  background: color-mix(in srgb, var(--dukr3g-surface-2) 85%, var(--dukr3g-text) 15%);
+}
+
+/* High contrast mode compatibility */
+@media (forced-colors: active){
+  #dukr3g-btn-back,
+  #dukr3g-btn-close{
+    forced-color-adjust: none;
+    background: Canvas;
+    color: CanvasText;
+    border-color: CanvasText;
+  }
+}
