@@ -3,30 +3,52 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dukr3g Reader • Milestone 1</title>
+  <title>Dukr3g Reader • M2</title>
   <link rel="stylesheet" href="reader.css">
 </head>
 <body>
-  <!-- Single opener. No hamburger. No toolbar strip. -->
+  <!-- Single opener -->
   <button id="reader-open"
           class="reader-open"
           aria-haspopup="dialog"
-          aria-controls="panel-display"
+          aria-controls="reader-dialog"
           aria-expanded="false"
           title="Reader tools (Alt+R)">•</button>
 
-  <!-- Display panel: Four fundamentals only -->
-  <dialog id="panel-display" aria-labelledby="h-display">
+  <!-- One dialog with 3 views: Menu, Display, TTS -->
+  <dialog id="reader-dialog" aria-labelledby="h-menu">
     <form method="dialog" class="panel" novalidate>
       <header class="panel-head">
-        <h2 id="h-display">Display</h2>
-        <button value="close" aria-label="Close panel">✕</button>
+        <h2 id="dialog-title">Reader Tools</h2>
+        <div class="head-actions">
+          <button type="button" id="btn-back" class="ghost" hidden aria-label="Back">←</button>
+          <button value="close" aria-label="Close panel">✕</button>
+        </div>
       </header>
 
-      <section class="panel-body" role="document" aria-describedby="display-help">
-        <p id="display-help" class="visually-hidden">
-          Adjust theme, font size, measure, and line height.
-        </p>
+      <!-- View: Menu -->
+      <section id="view-menu" class="panel-body view current" role="document" aria-describedby="menu-help">
+        <p id="menu-help" class="visually-hidden">Choose a tool category.</p>
+        <ul class="tile-grid" role="list">
+          <li>
+            <button type="button" id="go-display" class="tile" aria-describedby="desc-display">
+              <span class="tile-title">Display</span>
+              <span id="desc-display" class="tile-desc">Theme, size, measure, line height</span>
+            </button>
+          </li>
+          <li>
+            <button type="button" id="go-tts" class="tile" aria-describedby="desc-tts">
+              <span class="tile-title">TTS</span>
+              <span id="desc-tts" class="tile-desc">Play, rate, pitch, voice</span>
+            </button>
+          </li>
+        </ul>
+        <div class="kbd-help">Tips: press D for Display, T for TTS, Esc to close.</div>
+      </section>
+
+      <!-- View: Display -->
+      <section id="view-display" class="panel-body view" role="document" aria-labelledby="h-display" hidden>
+        <h3 id="h-display" class="view-heading">Display</h3>
 
         <fieldset>
           <legend>Theme</legend>
@@ -62,6 +84,36 @@
           </div>
         </fieldset>
       </section>
+
+      <!-- View: TTS -->
+      <section id="view-tts" class="panel-body view" role="document" aria-labelledby="h-tts" hidden>
+        <h3 id="h-tts" class="view-heading">Text to Speech</h3>
+
+        <div class="row tts-playback" role="group" aria-label="Playback">
+          <button type="button" id="tts-play"  title="Play">▶</button>
+          <button type="button" id="tts-pause" title="Pause">⏸</button>
+          <button type="button" id="tts-stop"  title="Stop">⏹</button>
+        </div>
+
+        <div class="control">
+          <label for="tts-rate-range">Rate</label>
+          <input id="tts-rate-range" type="range" min="0.50" max="2.00" step="0.05" value="1.00">
+          <output id="tts-rate-out" for="tts-rate-range">1.00x</output>
+        </div>
+
+        <div class="control">
+          <label for="tts-pitch-range">Pitch</label>
+          <input id="tts-pitch-range" type="range" min="0.10" max="2.00" step="0.05" value="1.00">
+          <output id="tts-pitch-out" for="tts-pitch-range">1.00</output>
+        </div>
+
+        <div class="control">
+          <label for="tts-voice-select">Voice</label>
+          <select id="tts-voice-select" aria-label="Voice"></select>
+        </div>
+
+        <p class="note">This basic TTS uses the browser speech engine if available. It reads the first article on the page.</p>
+      </section>
     </form>
   </dialog>
 
@@ -72,13 +124,8 @@
   <main id="main">
     <article class="prose" aria-labelledby="t1">
       <h1 id="t1">Test Article</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Etiam nec purus a dui placerat fermentum. Curabitur non ligula vitae arcu vehicula dapibus.
-      </p>
-      <p>
-        Drag the sliders to see measure and line height change immediately.
-      </p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam nec purus a dui placerat fermentum.</p>
+      <p>Drag the sliders in Display to see changes to measure and line height.</p>
     </article>
   </main>
 
