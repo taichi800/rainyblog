@@ -8,26 +8,25 @@
 </head>
 <body>
   <!-- Single opener: 讀 -->
-<button id="dukr3g-open"
-        class="dukr3g-open"
-        aria-haspopup="dialog"
-        aria-controls="dukr3g-dialog"
-        aria-expanded="false"
-        aria-label="Open reader tools (Alt+R)"
-        title="Reader tools (Alt+R)">
-  <span class="dukr3g-glyph" aria-hidden="true">讀</span>
-</button>
-
+  <button id="dukr3g-open"
+          class="dukr3g-open"
+          aria-haspopup="dialog"
+          aria-controls="dukr3g-dialog"
+          aria-expanded="false"
+          aria-label="Open reader tools (Alt+R)"
+          title="Reader tools (Alt+R)">
+    <span class="dukr3g-glyph" aria-hidden="true">讀</span>
+  </button>
 
   <!-- One dialog with 3 views: Menu, Display, TTS -->
   <dialog id="dukr3g-dialog" aria-labelledby="dukr3g-h-menu">
     <form method="dialog" class="dukr3g-panel" novalidate>
       <header class="dukr3g-panel-head">
         <h2 id="dukr3g-dialog-title">Reader Tools</h2>
-<div class="dukr3g-head-actions">
-  <button id="dukr3g-btn-back"  type="button" aria-label="Back">←</button>
-  <button id="dukr3g-btn-close" type="button" aria-label="Close">×</button>
-</div>
+        <div class="dukr3g-head-actions">
+          <button id="dukr3g-btn-back"  type="button" aria-label="Back">←</button>
+          <button id="dukr3g-btn-close" type="button" aria-label="Close">×</button>
+        </div>
       </header>
 
       <!-- View: Menu -->
@@ -65,43 +64,112 @@
             <option value="dukr3g-theme-sepia">Sepia</option>
             <option value="dukr3g-theme-gray">Gray</option>
             <option value="dukr3g-theme-high-contrast">High contrast</option>
+            <option value="dukr3g-theme-custom">Custom</option>
           </select>
+        </fieldset>
+
+        <fieldset id="dukr3g-custom-colors" hidden>
+          <legend>Custom colors</legend>
+
+          <!-- Text -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-user-text-hex">Text</label>
+            <input id="dukr3g-user-text-hex" type="text" inputmode="text"
+                   pattern="^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$"
+                   value="#111111" aria-label="Custom text color hex"
+                   autocomplete="off" spellcheck="false" placeholder="#RRGGBB">
+            <input id="dukr3g-user-text" type="color" value="#111111" aria-label="Custom text color window">
+            <output for="dukr3g-user-text-hex">#111111</output>
+          </div>
+
+          <!-- Background -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-user-bg-hex">Background</label>
+            <input id="dukr3g-user-bg-hex" type="text" inputmode="text"
+                   pattern="^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$"
+                   value="#ffffff" aria-label="Custom background color hex"
+                   autocomplete="off" spellcheck="false" placeholder="#RRGGBB">
+            <input id="dukr3g-user-bg" type="color" value="#ffffff" aria-label="Custom background color window">
+            <output for="dukr3g-user-bg-hex">#ffffff</output>
+          </div>
+
+          <!-- Unvisited link -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-user-link-hex">Unvisited link</label>
+            <input id="dukr3g-user-link-hex" type="text" inputmode="text"
+                   pattern="^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$"
+                   value="#2b6cf0" aria-label="Custom unvisited link color hex"
+                   autocomplete="off" spellcheck="false" placeholder="#RRGGBB">
+            <input id="dukr3g-user-link" type="color" value="#2b6cf0" aria-label="Custom unvisited link color window">
+            <output for="dukr3g-user-link-hex">#2b6cf0</output>
+          </div>
+
+          <!-- Visited link -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-user-visited-hex">Visited link</label>
+            <input id="dukr3g-user-visited-hex" type="text" inputmode="text"
+                   pattern="^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$"
+                   value="#5a2bb0" aria-label="Custom visited link color hex"
+                   autocomplete="off" spellcheck="false" placeholder="#RRGGBB">
+            <input id="dukr3g-user-visited" type="color" value="#5a2bb0" aria-label="Custom visited link color window">
+            <output for="dukr3g-user-visited-hex">#5a2bb0</output>
+          </div>
+
+          <!-- Read aloud ink -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-ral-ink-hex">Read aloud ink</label>
+            <input id="dukr3g-ral-ink-hex" type="text" inputmode="text"
+                   pattern="^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$"
+                   value="#0064ff" aria-label="Read aloud ink color hex"
+                   autocomplete="off" spellcheck="false" placeholder="#RRGGBB">
+            <input id="dukr3g-ral-ink" type="color" value="#0064ff" aria-label="Read aloud ink color window">
+            <output for="dukr3g-ral-ink-hex">#0064ff</output>
+          </div>
+
+          <!-- Read aloud background -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-ral-bg-hex">Read aloud background</label>
+            <input id="dukr3g-ral-bg-hex" type="text" inputmode="text"
+                   pattern="^#([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$"
+                   value="#ffec80" aria-label="Read aloud background color hex"
+                   autocomplete="off" spellcheck="false" placeholder="#RRGGBB">
+            <input id="dukr3g-ral-bg" type="color" value="#ffec80" aria-label="Read aloud background color window">
+            <output for="dukr3g-ral-bg-hex">#ffec80</output>
+          </div>
         </fieldset>
 
         <fieldset>
           <legend>Text geometry</legend>
 
-<!-- Font size -->
-<div class="dukr3g-control">
-  <label for="dukr3g-size">Font size</label>
-  <input id="dukr3g-size-num" type="number" inputmode="decimal"
-         min="0.30" max="3.00" step="0.01" value="1.00" aria-label="Font size value">
-  <input id="dukr3g-size" type="range"
-         min="0.30" max="3.00" step="0.01" value="1.00">
-  <output id="dukr3g-size-out" for="dukr3g-size">1.00</output>
-</div>
+          <!-- Font size -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-size">Font size</label>
+            <input id="dukr3g-size-num" type="number" inputmode="decimal"
+                   min="0.30" max="3.00" step="0.01" value="1.00" aria-label="Font size value">
+            <input id="dukr3g-size" type="range"
+                   min="0.30" max="3.00" step="0.01" value="1.00">
+            <output id="dukr3g-size-out" for="dukr3g-size">1.00</output>
+          </div>
 
-<!-- Measure -->
-<div class="dukr3g-control">
-  <label for="dukr3g-measure">Measure (ch)</label>
-  <input id="dukr3g-measure-num" type="number" inputmode="numeric"
-         min="40" max="121" step="1" value="70" aria-label="Measure value">
-  <input id="dukr3g-measure" type="range"
-         min="40" max="121" step="1" value="70">
-  <output id="dukr3g-measure-out" for="dukr3g-measure">70</output>
-</div>
+          <!-- Measure -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-measure">Measure (ch)</label>
+            <input id="dukr3g-measure-num" type="number" inputmode="numeric"
+                   min="40" max="121" step="1" value="70" aria-label="Measure value">
+            <input id="dukr3g-measure" type="range"
+                   min="40" max="121" step="1" value="70">
+            <output id="dukr3g-measure-out" for="dukr3g-measure">70</output>
+          </div>
 
-<!-- Line height -->
-<div class="dukr3g-control">
-  <label for="dukr3g-leading">Line height</label>
-  <input id="dukr3g-leading-num" type="number" inputmode="decimal"
-         min="1.00" max="2.50" step="0.01" value="1.60" aria-label="Line height value">
-  <input id="dukr3g-leading" type="range"
-         min="1.00" max="2.50" step="0.01" value="1.60">
-  <output id="dukr3g-leading-out" for="dukr3g-leading">1.60</output>
-</div>
-
-
+          <!-- Line height -->
+          <div class="dukr3g-control">
+            <label for="dukr3g-leading">Line height</label>
+            <input id="dukr3g-leading-num" type="number" inputmode="decimal"
+                   min="1.00" max="2.50" step="0.01" value="1.60" aria-label="Line height value">
+            <input id="dukr3g-leading" type="range"
+                   min="1.00" max="2.50" step="0.01" value="1.60">
+            <output id="dukr3g-leading-out" for="dukr3g-leading">1.60</output>
+          </div>
         </fieldset>
       </section>
 
@@ -116,26 +184,25 @@
           <button type="button" id="dukr3g-tts-stop"  title="Stop">⏹</button>
         </div>
 
-<!-- Rate -->
-<div class="dukr3g-control">
-  <label for="dukr3g-tts-rate">Rate</label>
-  <input id="dukr3g-tts-rate-num" type="number" inputmode="decimal"
-         min="0.10" max="10.00" step="0.05" value="1.00" aria-label="Speech rate value">
-  <input id="dukr3g-tts-rate" type="range"
-         min="0.10" max="10.00" step="0.05" value="1.00">
-  <output id="dukr3g-tts-rate-out" for="dukr3g-tts-rate">1.00x</output>
-</div>
+        <!-- Rate -->
+        <div class="dukr3g-control">
+          <label for="dukr3g-tts-rate">Rate</label>
+          <input id="dukr3g-tts-rate-num" type="number" inputmode="decimal"
+                 min="0.10" max="10.00" step="0.05" value="1.00" aria-label="Speech rate value">
+          <input id="dukr3g-tts-rate" type="range"
+                 min="0.10" max="10.00" step="0.05" value="1.00">
+          <output id="dukr3g-tts-rate-out" for="dukr3g-tts-rate">1.00x</output>
+        </div>
 
-<!-- Pitch -->
-<div class="dukr3g-control">
-  <label for="dukr3g-tts-pitch">Pitch</label>
-  <input id="dukr3g-tts-pitch-num" type="number" inputmode="decimal"
-         min="0.10" max="5.00" step="0.05" value="1.00" aria-label="Speech pitch value">
-  <input id="dukr3g-tts-pitch" type="range"
-         min="0.10" max="5.00" step="0.05" value="1.00">
-  <output id="dukr3g-tts-pitch-out" for="dukr3g-tts-pitch">1.00</output>
-</div>
-
+        <!-- Pitch -->
+        <div class="dukr3g-control">
+          <label for="dukr3g-tts-pitch">Pitch</label>
+          <input id="dukr3g-tts-pitch-num" type="number" inputmode="decimal"
+                 min="0.10" max="5.00" step="0.05" value="1.00" aria-label="Speech pitch value">
+          <input id="dukr3g-tts-pitch" type="range"
+                 min="0.10" max="5.00" step="0.05" value="1.00">
+          <output id="dukr3g-tts-pitch-out" for="dukr3g-tts-pitch">1.00</output>
+        </div>
 
         <div class="dukr3g-control">
           <label for="dukr3g-tts-voice">Voice</label>
