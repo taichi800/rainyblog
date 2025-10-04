@@ -11,6 +11,7 @@
   const dlg     = document.getElementById('dukr3g-dialog');
   const title   = document.getElementById('dukr3g-dialog-title');
   const btnBack = document.getElementById('dukr3g-btn-back');
+  const btnClose= document.getElementById('dukr3g-btn-close');   // NEW
   const status  = document.getElementById('dukr3g-status');
 
   // Views
@@ -123,25 +124,32 @@
     }
   }
 
-  // Open dialog and set open flag
+  // Open/close helpers
   function openDialog(){
     if (dlg.open) return;
     dlg.showModal();
-    openBtn.setAttribute('aria-expanded','true');
+    if (openBtn) openBtn.setAttribute('aria-expanded','true');
     html.setAttribute('data-dukr3g-open','1');
     showView('menu');
     dlg.addEventListener('close', () => {
-      openBtn.setAttribute('aria-expanded','false');
+      if (openBtn){ openBtn.setAttribute('aria-expanded','false'); openBtn.focus(); }
       html.removeAttribute('data-dukr3g-open');
-      openBtn.focus();
     }, { once: true });
+  }
+  function closeDialog(){            // NEW
+    if (!dlg.open) return;
+    dlg.close();
+    say('Closed');
   }
 
   // Bind opener and shortcuts
-  openBtn.addEventListener('click', openDialog);
+  if (openBtn) openBtn.addEventListener('click', openDialog);
   document.addEventListener('keydown', (e) => {
     if (e.altKey && (e.key === 'r' || e.key === 'R')) { e.preventDefault(); openDialog(); }
   });
+
+  // Close button (X)
+  if (btnClose) btnClose.addEventListener('click', closeDialog);  // NEW
 
   // Menu tile actions
   goDisplay.addEventListener('click', () => showView('display'));
@@ -150,6 +158,7 @@
 
   // Dialog internal shortcuts
   dlg.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape'){ e.preventDefault(); closeDialog(); }   // NEW: Esc closes
     if (e.key === 'd' || e.key === 'D') { e.preventDefault(); showView('display'); }
     if (e.key === 't' || e.key === 'T') { e.preventDefault(); showView('tts'); }
   });
@@ -232,7 +241,6 @@
     tPitch.setAttribute('aria-valuetext', pitch.toFixed(2));
   }
 
-  // Bind number↔range for TTS
   bindNumAndRange(tRateNum,  tRate,  () => { applyTTSOutputs(); });
   bindNumAndRange(tPitchNum, tPitch, () => { applyTTSOutputs(); });
   applyTTSOutputs();
