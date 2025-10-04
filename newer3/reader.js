@@ -1,5 +1,5 @@
 /* =========================================================
-   dukr3g reader.js  —  consolidated, namespaced, accessible
+   dukr3g reader.js  —  with numeric type-in synced to sliders
    ========================================================= */
 (function(){
   'use strict';
@@ -26,29 +26,76 @@
 
   // Display controls
   const theme       = document.getElementById('dukr3g-theme');
-  const size        = document.getElementById('dukr3g-size');
+
+  const sizeNum     = document.getElementById('dukr3g-size-num');
+  const size        = document.getElementById('dukr3g-size');         // 0.30..3.00
   const sizeOut     = document.getElementById('dukr3g-size-out');
-  const measure     = document.getElementById('dukr3g-measure');
+
+  const measureNum  = document.getElementById('dukr3g-measure-num');
+  const measure     = document.getElementById('dukr3g-measure');      // 40..121
   const measureOut  = document.getElementById('dukr3g-measure-out');
-  const leading     = document.getElementById('dukr3g-leading');
+
+  const leadingNum  = document.getElementById('dukr3g-leading-num');
+  const leading     = document.getElementById('dukr3g-leading');      // 1.00..2.50
   const leadingOut  = document.getElementById('dukr3g-leading-out');
 
   // TTS controls
-  const tPlay     = document.getElementById('dukr3g-tts-play');
-  const tPause    = document.getElementById('dukr3g-tts-pause');
-  const tStop     = document.getElementById('dukr3g-tts-stop');
-  const tRate     = document.getElementById('dukr3g-tts-rate');
-  const tRateOut  = document.getElementById('dukr3g-tts-rate-out');
-  const tPitch    = document.getElementById('dukr3g-tts-pitch');
-  const tPitchOut = document.getElementById('dukr3g-tts-pitch-out');
-  const tVoice    = document.getElementById('dukr3g-tts-voice');
+  const tPlay      = document.getElementById('dukr3g-tts-play');
+  const tPause     = document.getElementById('dukr3g-tts-pause');
+  const tStop      = document.getElementById('dukr3g-tts-stop');
 
-  // Utility: live announcer
+  const tRateNum   = document.getElementById('dukr3g-tts-rate-num');
+  const tRate      = document.getElementById('dukr3g-tts-rate');       // 0.10..10.00
+  const tRateOut   = document.getElementById('dukr3g-tts-rate-out');
+
+  const tPitchNum  = document.getElementById('dukr3g-tts-pitch-num');
+  const tPitch     = document.getElementById('dukr3g-tts-pitch');      // 0.10..5.00
+  const tPitchOut  = document.getElementById('dukr3g-tts-pitch-out');
+
+  const tVoice     = document.getElementById('dukr3g-tts-voice');
+
+  // Live announcer
   function say(msg){
     if (!status) return;
     status.textContent = msg;
     clearTimeout(say._t);
     say._t = setTimeout(() => { status.textContent = ''; }, 1100);
+  }
+
+  // Clamp helper
+  function clampToRange(inputEl, v){
+    const min = parseFloat(inputEl.min);
+    const max = parseFloat(inputEl.max);
+    if (Number.isFinite(min)) v = Math.max(v, min);
+    if (Number.isFinite(max)) v = Math.min(v, max);
+    return v;
+  }
+
+  // Generic binder: keep a number input and range in sync, call an apply() fn
+  function bindNumAndRange(numEl, rangeEl, applyFn){
+    // Number -> Range
+    function fromNum(){
+      let v = parseFloat(numEl.value);
+      if (Number.isNaN(v)) return; // ignore incomplete typing
+      v = clampToRange(rangeEl, v);
+      numEl.value = v.toFixed(rangeEl.step && parseFloat(rangeEl.step) < 1 ? 2 : 0);
+      rangeEl.value = String(v);
+      applyFn();
+    }
+    // Range -> Number
+    function fromRange(){
+      let v = parseFloat(rangeEl.value);
+      v = clampToRange(rangeEl, v);
+      numEl.value = v.toFixed(rangeEl.step && parseFloat(rangeEl.step) < 1 ? 2 : 0);
+      applyFn();
+    }
+    numEl.addEventListener('change', fromNum);
+    numEl.addEventListener('blur', fromNum);
+    numEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); fromNum(); } });
+    rangeEl.addEventListener('input', fromRange);
+    rangeEl.addEventListener('change', fromRange);
+    // Initialize number from range default
+    fromRange();
   }
 
   // View switcher
@@ -76,7 +123,7 @@
     }
   }
 
-  // Open dialog to Menu, set open flag on <html>
+  // Open dialog and set open flag
   function openDialog(){
     if (dlg.open) return;
     dlg.showModal();
@@ -90,13 +137,10 @@
     }, { once: true });
   }
 
-  // Bind opener and global shortcut
+  // Bind opener and shortcuts
   openBtn.addEventListener('click', openDialog);
   document.addEventListener('keydown', (e) => {
-    if (e.altKey && (e.key === 'r' || e.key === 'R')) {
-      e.preventDefault();
-      openDialog();
-    }
+    if (e.altKey && (e.key === 'r' || e.key === 'R')) { e.preventDefault(); openDialog(); }
   });
 
   // Menu tile actions
@@ -117,40 +161,41 @@
     say(`Theme ${theme.options[theme.selectedIndex].text}`);
   });
 
-  // DISPLAY: size
+  // DISPLAY apply fns
   function applySize(){
-    const v = parseFloat(size.value);
+    let v = parseFloat(size.value);
+    v = clampToRange(size, v);
     html.style.setProperty('--dukr3g-scale', v.toFixed(2));
     sizeOut.value = v.toFixed(2);
+    size.setAttribute('aria-valuetext', `×${v.toFixed(2)}`);
     say(`Font size ×${v.toFixed(2)}`);
   }
-  size.addEventListener('input', applySize);
-  size.addEventListener('change', applySize);
-
-  // DISPLAY: measure
   function applyMeasure(){
-    const v = parseInt(measure.value, 10);
+    let v = parseInt(measure.value, 10);
+    v = clampToRange(measure, v);
     html.style.setProperty('--dukr3g-measure', v);
     measureOut.value = String(v);
+    measure.setAttribute('aria-valuetext', `${v} characters`);
     say(`Measure ${v} ch`);
   }
-  measure.addEventListener('input', applyMeasure);
-  measure.addEventListener('change', applyMeasure);
-
-  // DISPLAY: leading
   function applyLeading(){
-    const v = parseFloat(leading.value);
+    let v = parseFloat(leading.value);
+    v = clampToRange(leading, v);
     html.style.setProperty('--dukr3g-leading', v.toFixed(2));
     leadingOut.value = v.toFixed(2);
+    leading.setAttribute('aria-valuetext', v.toFixed(2));
     say(`Line height ${v.toFixed(2)}`);
   }
-  leading.addEventListener('input', applyLeading);
-  leading.addEventListener('change', applyLeading);
+
+  // Bind number↔range pairs
+  bindNumAndRange(sizeNum,    size,    applySize);
+  bindNumAndRange(measureNum, measure, applyMeasure);
+  bindNumAndRange(leadingNum, leading, applyLeading);
 
   // Initialize outputs from CSS defaults
   applySize(); applyMeasure(); applyLeading();
 
-  // ===== Basic TTS (namespaced) =====
+  // ===== Basic TTS (with number inputs) =====
   const hasSpeech = 'speechSynthesis' in window;
   let utter = null;
 
@@ -177,29 +222,43 @@
     return art ? art.innerText.trim() : '';
   }
 
+  // TTS readouts and binding
   function applyTTSOutputs(){
-    tRateOut.value  = parseFloat(tRate.value).toFixed(2) + 'x';
-    tPitchOut.value = parseFloat(tPitch.value).toFixed(2);
+    const rate  = clampToRange(tRate,  parseFloat(tRate.value));
+    const pitch = clampToRange(tPitch, parseFloat(tPitch.value));
+    tRateOut.value  = rate.toFixed(2) + 'x';
+    tPitchOut.value = pitch.toFixed(2);
+    tRate.setAttribute('aria-valuetext', rate.toFixed(2) + ' times');
+    tPitch.setAttribute('aria-valuetext', pitch.toFixed(2));
   }
-  tRate.addEventListener('input', applyTTSOutputs);
-  tPitch.addEventListener('input', applyTTSOutputs);
+
+  // Bind number↔range for TTS
+  bindNumAndRange(tRateNum,  tRate,  () => { applyTTSOutputs(); });
+  bindNumAndRange(tPitchNum, tPitch, () => { applyTTSOutputs(); });
   applyTTSOutputs();
 
   tPlay.addEventListener('click', () => {
     if (!hasSpeech) { say('Speech not supported'); return; }
     const text = getArticleText();
     if (!text) { say('Nothing to read'); return; }
+
     if (utter && speechSynthesis.speaking){
       speechSynthesis.resume();
       say('Resumed');
       return;
     }
+
+    const rate  = clampToRange(tRate,  parseFloat(tRate.value));
+    const pitch = clampToRange(tPitch, parseFloat(tPitch.value));
+
     utter = new SpeechSynthesisUtterance(text);
-    utter.rate  = parseFloat(tRate.value);
-    utter.pitch = parseFloat(tPitch.value);
+    utter.rate  = rate;
+    utter.pitch = pitch;
+
     const want = tVoice.value;
     const sel  = speechSynthesis.getVoices().find(x => x.name === want);
     if (sel) utter.voice = sel;
+
     speechSynthesis.cancel();
     speechSynthesis.speak(utter);
     say('Reading started');
@@ -219,7 +278,7 @@
     say('Stopped');
   });
 
-  // Optional: light guard for dialog support
+  // Guard for dialog support
   if (!(window.HTMLDialogElement && dlg && typeof dlg.showModal === 'function')){
     console.warn('dukr3g: <dialog> not fully supported in this browser.');
   }
